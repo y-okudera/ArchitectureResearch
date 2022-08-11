@@ -16,6 +16,7 @@
 		B6A5122528A5322E00C8FA1A /* ArchitectureResearchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A5122428A5322E00C8FA1A /* ArchitectureResearchTests.swift */; };
 		B6A5122F28A5322E00C8FA1A /* ArchitectureResearchUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A5122E28A5322E00C8FA1A /* ArchitectureResearchUITests.swift */; };
 		B6A5123128A5322E00C8FA1A /* ArchitectureResearchUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A5123028A5322E00C8FA1A /* ArchitectureResearchUITestsLaunchTests.swift */; };
+		B6A5124328A54D4A00C8FA1A /* Infrastructure in Frameworks */ = {isa = PBXBuildFile; productRef = B6A5124228A54D4A00C8FA1A /* Infrastructure */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		B6A5122A28A5322E00C8FA1A /* ArchitectureResearchUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ArchitectureResearchUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6A5122E28A5322E00C8FA1A /* ArchitectureResearchUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchitectureResearchUITests.swift; sourceTree = "<group>"; };
 		B6A5123028A5322E00C8FA1A /* ArchitectureResearchUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchitectureResearchUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		B6A5124028A54D2D00C8FA1A /* Infrastructure */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Infrastructure; path = Packages/Infrastructure; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6A5124328A54D4A00C8FA1A /* Infrastructure in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,10 +82,12 @@
 		B6A5120128A5322700C8FA1A = {
 			isa = PBXGroup;
 			children = (
+				B6A5123F28A54D2D00C8FA1A /* Packages */,
 				B6A5120C28A5322700C8FA1A /* ArchitectureResearch */,
 				B6A5122328A5322E00C8FA1A /* ArchitectureResearchTests */,
 				B6A5122D28A5322E00C8FA1A /* ArchitectureResearchUITests */,
 				B6A5120B28A5322700C8FA1A /* Products */,
+				B6A5124128A54D4A00C8FA1A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -127,6 +132,21 @@
 			path = ArchitectureResearchUITests;
 			sourceTree = "<group>";
 		};
+		B6A5123F28A54D2D00C8FA1A /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				B6A5124028A54D2D00C8FA1A /* Infrastructure */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
+		B6A5124128A54D4A00C8FA1A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -144,6 +164,9 @@
 			dependencies = (
 			);
 			name = ArchitectureResearch;
+			packageProductDependencies = (
+				B6A5124228A54D4A00C8FA1A /* Infrastructure */,
+			);
 			productName = ArchitectureResearch;
 			productReference = B6A5120A28A5322700C8FA1A /* ArchitectureResearch.app */;
 			productType = "com.apple.product-type.application";
@@ -467,6 +490,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -495,6 +519,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -624,6 +649,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B6A5124228A54D4A00C8FA1A /* Infrastructure */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Infrastructure;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B6A5120228A5322700C8FA1A /* Project object */;
 }
