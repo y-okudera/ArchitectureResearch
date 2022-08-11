@@ -1,0 +1,48 @@
+# 無効にするルール。
+disabled_rules:
+  - trailing_whitespace # コードの記載のない改行を許可したい
+  - force_cast # 場合によっては使用するため
+
+# デフォルト無効のルールのうち、有効にするもの。
+opt_in_rules:
+  - closure_spacing # クロージャのカッコの近くにスペース強制
+  - empty_count # == 0 のかわりにisEmpty
+  - explicit_init # init()使わない
+  - fatal_error_message # メッセージをつける
+  - first_where # .filter { }.firstよりも.first(where:)を用いる
+  - missing_docs # publicな宣言はドキュメント化されているべき
+  - private_outlet # outletはprivateにする
+  - prohibited_super_call # いくつかのメソッドにおいてはsuperを呼び出すべきではない
+  - redundant_nil_coalescing # nil結合演算子において，左辺がnilの場合のみ評価される性質上，右辺にnilを書くのは冗長なため，書くべきでない
+
+# 追加したOSSライブラリは対象に含めたくない
+excluded:
+  - Pods/
+  - Carthage/
+  - ./swiftpm
+  - ./**/Generated/
+  - vendor/
+  - ./*Tests/
+
+included:
+- ArchitectureResearch/
+
+# 1行あたりの文字数制限を150に変更
+line_length: 150
+
+# 変数名が2文字以上なら許可に変更
+identifier_name:
+  min_length: 2
+
+# ArrayやDictionary中の末尾の,を強制
+trailing_comma:
+    mandatory_comma: true
+
+ # タプルは3つで警告、4つ以上でエラー
+large_tuple:
+  - 3
+  - 4
+
+# outletのprivate(set)は許容する
+private_outlet:
+    allow_private_set: true
