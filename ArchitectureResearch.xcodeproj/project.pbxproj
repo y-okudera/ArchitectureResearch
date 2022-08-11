@@ -18,6 +18,8 @@
 		B6A5123128A5322E00C8FA1A /* ArchitectureResearchUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A5123028A5322E00C8FA1A /* ArchitectureResearchUITestsLaunchTests.swift */; };
 		B6A5124328A54D4A00C8FA1A /* Infrastructure in Frameworks */ = {isa = PBXBuildFile; productRef = B6A5124228A54D4A00C8FA1A /* Infrastructure */; };
 		B6A5124628A55F8600C8FA1A /* Domain in Frameworks */ = {isa = PBXBuildFile; productRef = B6A5124528A55F8600C8FA1A /* Domain */; };
+		B6A5124D28A570CE00C8FA1A /* Core in Frameworks */ = {isa = PBXBuildFile; productRef = B6A5124C28A570CE00C8FA1A /* Core */; };
+		B6A5125028A5738C00C8FA1A /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A5124F28A5738C00C8FA1A /* AppEnvironment.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +55,8 @@
 		B6A5123028A5322E00C8FA1A /* ArchitectureResearchUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchitectureResearchUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		B6A5124028A54D2D00C8FA1A /* Infrastructure */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Infrastructure; path = Packages/Infrastructure; sourceTree = "<group>"; };
 		B6A5124428A55F6600C8FA1A /* Domain */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Domain; path = Packages/Domain; sourceTree = "<group>"; };
+		B6A5124B28A570C800C8FA1A /* Core */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Core; path = Packages/Core; sourceTree = "<group>"; };
+		B6A5124F28A5738C00C8FA1A /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +66,7 @@
 			files = (
 				B6A5124628A55F8600C8FA1A /* Domain in Frameworks */,
 				B6A5124328A54D4A00C8FA1A /* Infrastructure in Frameworks */,
+				B6A5124D28A570CE00C8FA1A /* Core in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -107,6 +112,7 @@
 		B6A5120C28A5322700C8FA1A /* ArchitectureResearch */ = {
 			isa = PBXGroup;
 			children = (
+				B6A5124E28A5737000C8FA1A /* Environment */,
 				B6A5120D28A5322700C8FA1A /* AppDelegate.swift */,
 				B6A5120F28A5322700C8FA1A /* SceneDelegate.swift */,
 				B6A5121128A5322700C8FA1A /* ViewController.swift */,
@@ -140,6 +146,7 @@
 			children = (
 				B6A5124028A54D2D00C8FA1A /* Infrastructure */,
 				B6A5124428A55F6600C8FA1A /* Domain */,
+				B6A5124B28A570C800C8FA1A /* Core */,
 			);
 			name = Packages;
 			sourceTree = "<group>";
@@ -149,6 +156,14 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B6A5124E28A5737000C8FA1A /* Environment */ = {
+			isa = PBXGroup;
+			children = (
+				B6A5124F28A5738C00C8FA1A /* AppEnvironment.swift */,
+			);
+			path = Environment;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -171,6 +186,7 @@
 			packageProductDependencies = (
 				B6A5124228A54D4A00C8FA1A /* Infrastructure */,
 				B6A5124528A55F8600C8FA1A /* Domain */,
+				B6A5124C28A570CE00C8FA1A /* Core */,
 			);
 			productName = ArchitectureResearch;
 			productReference = B6A5120A28A5322700C8FA1A /* ArchitectureResearch.app */;
@@ -309,6 +325,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B6A5121228A5322700C8FA1A /* ViewController.swift in Sources */,
+				B6A5125028A5738C00C8FA1A /* AppEnvironment.swift in Sources */,
 				B6A5120E28A5322700C8FA1A /* AppDelegate.swift in Sources */,
 				B6A5121028A5322700C8FA1A /* SceneDelegate.swift in Sources */,
 			);
@@ -663,6 +680,10 @@
 		B6A5124528A55F8600C8FA1A /* Domain */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Domain;
+		};
+		B6A5124C28A570CE00C8FA1A /* Core */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Core;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

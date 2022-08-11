@@ -26,6 +26,7 @@ excluded:
 
 included:
   - ArchitectureResearch/
+  - Packages/Core/Sources
   - Packages/Domain/Sources
   - Packages/Infrastructure/Sources
 
