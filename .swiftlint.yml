@@ -26,6 +26,7 @@ excluded:
 
 included:
   - ArchitectureResearch/
+  - Packages/Domain/Sources
   - Packages/Infrastructure/Sources
 
 # 1行あたりの文字数制限を150に変更

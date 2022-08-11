@@ -7,24 +7,18 @@
 
 import Foundation
 
-enum ApiRemoteDataSourceProvider {
-    static func provide(urlSession: URLSession = .shared) -> ApiRemoteDataSource {
-        ApiRemoteDataSourceImpl(urlSession: urlSession)
-    }
-}
-
-protocol ApiRemoteDataSource {
+public protocol ApiRemoteDataSource {
     func sendRequest<T: ApiRequestable>(_ apiRequest: T) async throws -> ApiResponse<T.Response>
 }
 
-struct ApiRemoteDataSourceImpl: ApiRemoteDataSource {
-    let urlSession: URLSession
+public struct ApiRemoteDataSourceImpl: ApiRemoteDataSource {
+    public let urlSession: URLSession
 
-    init(urlSession: URLSession) {
+    public init(urlSession: URLSession) {
         self.urlSession = urlSession
     }
 
-    func sendRequest<T: ApiRequestable>(_ apiRequest: T) async throws -> ApiResponse<T.Response> {
+    public func sendRequest<T: ApiRequestable>(_ apiRequest: T) async throws -> ApiResponse<T.Response> {
         guard let urlRequest = apiRequest.urlRequest else {
             throw ApiError.invalidRequest
         }

@@ -17,6 +17,7 @@
 		B6A5122F28A5322E00C8FA1A /* ArchitectureResearchUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A5122E28A5322E00C8FA1A /* ArchitectureResearchUITests.swift */; };
 		B6A5123128A5322E00C8FA1A /* ArchitectureResearchUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A5123028A5322E00C8FA1A /* ArchitectureResearchUITestsLaunchTests.swift */; };
 		B6A5124328A54D4A00C8FA1A /* Infrastructure in Frameworks */ = {isa = PBXBuildFile; productRef = B6A5124228A54D4A00C8FA1A /* Infrastructure */; };
+		B6A5124628A55F8600C8FA1A /* Domain in Frameworks */ = {isa = PBXBuildFile; productRef = B6A5124528A55F8600C8FA1A /* Domain */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		B6A5122E28A5322E00C8FA1A /* ArchitectureResearchUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchitectureResearchUITests.swift; sourceTree = "<group>"; };
 		B6A5123028A5322E00C8FA1A /* ArchitectureResearchUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchitectureResearchUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		B6A5124028A54D2D00C8FA1A /* Infrastructure */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Infrastructure; path = Packages/Infrastructure; sourceTree = "<group>"; };
+		B6A5124428A55F6600C8FA1A /* Domain */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Domain; path = Packages/Domain; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6A5124628A55F8600C8FA1A /* Domain in Frameworks */,
 				B6A5124328A54D4A00C8FA1A /* Infrastructure in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -136,6 +139,7 @@
 			isa = PBXGroup;
 			children = (
 				B6A5124028A54D2D00C8FA1A /* Infrastructure */,
+				B6A5124428A55F6600C8FA1A /* Domain */,
 			);
 			name = Packages;
 			sourceTree = "<group>";
@@ -166,6 +170,7 @@
 			name = ArchitectureResearch;
 			packageProductDependencies = (
 				B6A5124228A54D4A00C8FA1A /* Infrastructure */,
+				B6A5124528A55F8600C8FA1A /* Domain */,
 			);
 			productName = ArchitectureResearch;
 			productReference = B6A5120A28A5322700C8FA1A /* ArchitectureResearch.app */;
@@ -654,6 +659,10 @@
 		B6A5124228A54D4A00C8FA1A /* Infrastructure */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Infrastructure;
+		};
+		B6A5124528A55F8600C8FA1A /* Domain */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Domain;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
