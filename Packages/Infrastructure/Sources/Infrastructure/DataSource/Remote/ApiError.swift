@@ -1,5 +1,5 @@
 //
-//  APIError.swift
+//  ApiError.swift
 //  
 //
 //  Created by Yuki Okudera on 2022/08/12.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum APIError: Error {
+public enum ApiError: Error {
     /// 通信エラー
     case cannotConnected
     /// 不正なリクエスト
@@ -24,7 +24,7 @@ public enum APIError: Error {
     case unknown(Error)
 
     public init(error: Error) {
-        if let apiError = error as? APIError {
+        if let apiError = error as? ApiError {
             self = apiError
             return
         }
@@ -41,15 +41,14 @@ public enum APIError: Error {
                     .notConnectedToInternet,
                     .secureConnectionFailed,
                     .cannotLoadFromNetwork:
-                self = APIError.cannotConnected
+                self = ApiError.cannotConnected
             default:
-                self = APIError.unknown(error)
+                self = ApiError.unknown(error)
             }
             return
         }
 
-        // errorがAPIErrorでもURLErrorでもない場合
-        self = APIError.unknown(error)
+        // errorがApiErrorでもURLErrorでもない場合
+        self = ApiError.unknown(error)
     }
 }
-

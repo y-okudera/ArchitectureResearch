@@ -1,5 +1,5 @@
 //
-//  APIResponse.swift
+//  ApiResponse.swift
 //  
 //
 //  Created by Yuki Okudera on 2022/08/12.
@@ -7,25 +7,25 @@
 
 import Foundation
 
-public struct APIResponse<T: Decodable> {
-    public var response: T
-    public var statusCode: Int
-    public var responseHeaderFields: [AnyHashable: Any]
+public struct ApiResponse<T: Decodable> {
+    public let response: T
+    public let statusCode: Int
+    public let responseHeaderFields: [AnyHashable: Any]
 
     /// GitHub API specific property
-    public var gitHubAPIPagination: GitHubAPIPagination?
+    public let gitHubApiPagination: GitHubApiPagination?
 
     public init(response: T, httpURLResponse: HTTPURLResponse) {
         self.response = response
         self.statusCode = httpURLResponse.statusCode
         self.responseHeaderFields = httpURLResponse.allHeaderFields
-        self.gitHubAPIPagination = .init(httpURLResponse: httpURLResponse)
+        self.gitHubApiPagination = .init(httpURLResponse: httpURLResponse)
         print("Requested URL \(httpURLResponse.url?.absoluteString ?? "nil")")
     }
 }
 
 // MARK: GitHub API Pagination
-public struct GitHubAPIPagination {
+public struct GitHubApiPagination {
     public let hasNext: Bool
 
     init(hasNext: Bool) {

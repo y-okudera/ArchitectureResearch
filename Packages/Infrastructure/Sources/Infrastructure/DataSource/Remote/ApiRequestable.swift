@@ -1,5 +1,5 @@
 //
-//  APIRequestable.swift
+//  ApiRequestable.swift
 //  
 //
 //  Created by Yuki Okudera on 2022/08/12.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol APIRequestable {
+public protocol ApiRequestable {
     associatedtype Response: Decodable
 
     var baseUrl: String { get }
@@ -21,7 +21,7 @@ public protocol APIRequestable {
     var urlRequest: URLRequest? { get }
 }
 
-extension APIRequestable {
+extension ApiRequestable {
     public var baseUrl: String {
         return "https://api.github.com"
     }
@@ -57,7 +57,7 @@ extension APIRequestable {
                 request.addValue(value, forHTTPHeaderField: key)
             }
             if let bodyItems = self.bodyItems,
-                let httpBody = try? JSONSerialization.data(withJSONObject: bodyItems, options: [])
+               let httpBody = try? JSONSerialization.data(withJSONObject: bodyItems, options: [])
             {
                 request.httpBody = httpBody
             }
