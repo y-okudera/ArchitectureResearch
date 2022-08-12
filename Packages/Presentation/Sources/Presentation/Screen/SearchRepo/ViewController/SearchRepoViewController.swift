@@ -58,11 +58,14 @@ extension SearchRepoViewController: UISearchBarDelegate {
         searchBar.resignFirstResponder()
         Task {
             do {
-                try await presenter.search(searchQuery: searchBar.text)
-                tableView.setContentOffset(.zero, animated: false)
-                tableView.reloadData()
+                let result = try await presenter.search(searchQuery: searchBar.text)
+                if result {
+                    tableView.setContentOffset(.zero, animated: false)
+                    tableView.reloadData()
+                }
             } catch {
                 await showAlert(title: "エラー", message: error.localizedDescription, actionTitle: "OK")
+                presenter.finishLoading()
                 searchBarSearchButtonClicked(searchBar)
             }
         }
@@ -94,6 +97,7 @@ extension SearchRepoViewController: UIScrollViewDelegate {
                 }
             } catch {
                 await showAlert(title: "エラー", message: error.localizedDescription, actionTitle: "OK")
+                presenter.finishLoading()
                 scrollViewDidScroll(scrollView)
             }
         }

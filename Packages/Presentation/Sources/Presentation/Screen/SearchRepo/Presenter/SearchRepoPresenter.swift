@@ -11,8 +11,9 @@ import Foundation
 
 protocol SearchRepoPresenter {
     var state: SearchRepoState { get }
-    func search(searchQuery: String?) async throws
+    func search(searchQuery: String?) async throws -> Bool
     func didScroll(offsetY: Double, threshold: Double, edgeOffset: Double) async throws -> Bool
+    func finishLoading()
 }
 
 final class SearchRepoPresenterImpl: SearchRepoPresenter {
@@ -27,16 +28,17 @@ final class SearchRepoPresenterImpl: SearchRepoPresenter {
         self.wireframe = wireframe
     }
 
-    func search(searchQuery: String?) async throws {
+    func search(searchQuery: String?) async throws -> Bool {
         guard !state.isLoading else {
-            return
+            return false
         }
         guard let searchQuery = searchQuery, !searchQuery.isEmpty else {
-            return
+            return false
         }
         state.update(isLoading: true)
         let viewData = try await gitHubRepoRepository.search(searchQuery: searchQuery, page: 1)
         state.update(isLoading: false, page: 2, searchQuery: searchQuery, viewData: viewData)
+        return true
     }
 
     func didScroll(offsetY: Double, threshold: Double, edgeOffset: Double) async throws -> Bool {
@@ -59,5 +61,9 @@ final class SearchRepoPresenterImpl: SearchRepoPresenter {
         state.update(isLoading: false, page: state.page + 1)
         state.viewData.append(viewData: viewData)
         return true
+    }
+
+    func finishLoading() {
+        state.update(isLoading: false)
     }
 }
