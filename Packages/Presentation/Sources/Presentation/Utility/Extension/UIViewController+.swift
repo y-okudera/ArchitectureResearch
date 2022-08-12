@@ -5,6 +5,7 @@
 //  Created by Yuki Okudera on 2022/08/12.
 //
 
+import Lottie
 import UIKit
 
 extension UIViewController {
@@ -27,5 +28,25 @@ extension UIViewController {
             )
             self?.present(alert, animated: true)
         }
+    }
+
+    func showLoading(isOverlay: Bool) {
+        hideLoading()
+        
+        let lottieView = LottieView(frame: self.view.frame)
+        lottieView.setup(isOverlay: isOverlay, assetName: "octocat")
+        lottieView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(lottieView)
+        NSLayoutConstraint.activate([
+            lottieView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            lottieView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            lottieView.topAnchor.constraint(equalTo: self.view.topAnchor),
+            lottieView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+        ])
+    }
+
+    func hideLoading() {
+        self.view.findViews(subclassOf: LottieView.self)
+            .forEach { $0.removeFromSuperview() }
     }
 }

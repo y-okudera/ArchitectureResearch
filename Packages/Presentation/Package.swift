@@ -18,6 +18,7 @@ let package = Package(
     dependencies: [
         .package(name: "Core", path: "../Core"),
         .package(name: "Domain", path: "../Domain"),
+        .package(url: "https://github.com/airbnb/lottie-ios", from: "3.4.1")
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -27,6 +28,7 @@ let package = Package(
             dependencies: [
                 .product(name: "Core", package: "Core"),
                 .product(name: "Domain", package: "Domain"),
+                .product(name: "Lottie", package: "lottie-ios"),
             ]
         ),
         .testTarget(

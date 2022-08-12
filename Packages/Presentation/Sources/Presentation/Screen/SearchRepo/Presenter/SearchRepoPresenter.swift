@@ -12,6 +12,7 @@ protocol SearchRepoPresenter {
     var state: SearchRepoState { get }
     func search(searchQuery: String?) async throws -> Bool
     func didScroll(offsetY: Double, threshold: Double, edgeOffset: Double) async throws -> Bool
+    func reachedbottom() async throws -> Bool
     func finishLoading()
     func didSelectRow(at indexPath: IndexPath)
 }
@@ -54,7 +55,10 @@ final class SearchRepoPresenterImpl: SearchRepoPresenter {
         guard offsetY > threshold - edgeOffset else {
             return false
         }
+        return true
+    }
 
+    func reachedbottom() async throws -> Bool {
         print("追加読み込み state.page = \(state.page)")
         state.update(isLoading: true)
         let viewData = try await gitHubRepoRepository.search(searchQuery: state.searchQuery, page: state.page)

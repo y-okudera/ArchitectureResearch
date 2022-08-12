@@ -66,10 +66,12 @@ extension SearchRepoViewController: UISearchBarDelegate {
         searchBar.resignFirstResponder()
         Task {
             do {
-                let result = try await presenter.search(searchQuery: searchBar.text)
-                if result {
+                showLoading(isOverlay: true)
+                let searchResult = try await presenter.search(searchQuery: searchBar.text)
+                if searchResult {
                     tableView.setContentOffset(.zero, animated: false)
                     tableView.reloadData()
+                    hideLoading()
                 }
             } catch {
                 await showAlert(title: "エラー", message: error.localizedDescription, actionTitle: "OK")
@@ -92,17 +94,18 @@ extension SearchRepoViewController: UISearchBarDelegate {
 // MARK: - UIScrollViewDelegate
 extension SearchRepoViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y + scrollView.contentInset.top
         let visibleHeight = scrollView.frame.height - scrollView.contentInset.top - scrollView.contentInset.bottom
+        let threshold = max(0.0, scrollView.contentSize.height - visibleHeight)
         Task {
             do {
-                let result = try await presenter.didScroll(
-                    offsetY: scrollView.contentOffset.y + scrollView.contentInset.top,
-                    threshold: max(0.0, scrollView.contentSize.height - visibleHeight),
-                    edgeOffset: 25.0
-                )
-                if result {
-                    tableView.reloadData()
-                }
+                let scrollResult = try await presenter.didScroll(offsetY: offsetY, threshold: threshold, edgeOffset: 100.0)
+                guard scrollResult else { return }
+                showLoading(isOverlay: false)
+                let loadingResult = try await presenter.reachedbottom()
+                guard loadingResult else { return }
+                tableView.reloadData()
+                hideLoading()
             } catch {
                 await showAlert(title: "エラー", message: error.localizedDescription, actionTitle: "OK")
                 presenter.finishLoading()
@@ -114,7 +117,6 @@ extension SearchRepoViewController: UIScrollViewDelegate {
 
 // MARK: - UITableViewDataSource
 extension SearchRepoViewController: UITableViewDataSource {
-
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         presenter.state.viewData.items.count
     }
