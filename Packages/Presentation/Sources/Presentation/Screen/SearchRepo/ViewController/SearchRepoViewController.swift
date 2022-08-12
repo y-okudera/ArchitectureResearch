@@ -23,7 +23,15 @@ final class SearchRepoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = "リポジトリ検索"
         setupSearchBar()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        tableView.indexPathsForSelectedRows?.forEach {
+            tableView.deselectRow(at: $0, animated: true)
+        }
     }
 
     func configure(presenter: SearchRepoPresenter) {
@@ -138,7 +146,6 @@ extension SearchRepoViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension SearchRepoViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-#warning("Will impl tap event.")
-        print(#function, indexPath)
+        presenter.didSelectRow(at: indexPath)
     }
 }

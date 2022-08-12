@@ -5,7 +5,6 @@
 //  Created by Yuki Okudera on 2022/08/12.
 //
 
-import Core
 import Domain
 import Foundation
 
@@ -14,6 +13,7 @@ protocol SearchRepoPresenter {
     func search(searchQuery: String?) async throws -> Bool
     func didScroll(offsetY: Double, threshold: Double, edgeOffset: Double) async throws -> Bool
     func finishLoading()
+    func didSelectRow(at indexPath: IndexPath)
 }
 
 final class SearchRepoPresenterImpl: SearchRepoPresenter {
@@ -65,5 +65,9 @@ final class SearchRepoPresenterImpl: SearchRepoPresenter {
 
     func finishLoading() {
         state.update(isLoading: false)
+    }
+
+    func didSelectRow(at indexPath: IndexPath) {
+        wireframe.pushGeneralWebView(initialUrl: state.viewData.items[indexPath.row].htmlUrl)
     }
 }
