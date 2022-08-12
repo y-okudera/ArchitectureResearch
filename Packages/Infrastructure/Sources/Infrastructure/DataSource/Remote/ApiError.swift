@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum ApiError: Error {
+public enum ApiError: LocalizedError {
     /// 通信エラー
     case cannotConnected
     /// 不正なリクエスト
@@ -50,5 +50,26 @@ public enum ApiError: Error {
 
         // errorがApiErrorでもURLErrorでもない場合
         self = ApiError.unknown(error)
+    }
+}
+
+extension ApiError {
+    public var errorDescription: String? {
+        switch self {
+        case .cannotConnected:
+            return "通信エラーが発生しました。"
+        case .invalidRequest:
+            return "不正なリクエストです。"
+        case .invalidResponse(let error):
+            return "不正なレスポンスです。\n\(error.localizedDescription)"
+        case .clientError(let statusCode):
+            return "クライアントエラーが発生しました。(\(statusCode))"
+        case .serverError(let statusCode):
+            return "サーバエラーが発生しました。(\(statusCode))"
+        case .decodeError(let decodingError):
+            return "デコードエラーが発生しました。\n\(decodingError.localizedDescription)"
+        case .unknown(let error):
+            return "予期せぬエラーが発生しました。\n\(error.localizedDescription)"
+        }
     }
 }
