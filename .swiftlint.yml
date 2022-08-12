@@ -29,6 +29,7 @@ included:
   - Packages/Core/Sources
   - Packages/Domain/Sources
   - Packages/Infrastructure/Sources
+  - Packages/Presentation/Sources
 
 # 1行あたりの文字数制限を150に変更
 line_length: 150
