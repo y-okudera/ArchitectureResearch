@@ -10,7 +10,6 @@ opt_in_rules:
   - explicit_init # init()使わない
   - fatal_error_message # メッセージをつける
   - first_where # .filter { }.firstよりも.first(where:)を用いる
-  - missing_docs # publicな宣言はドキュメント化されているべき
   - private_outlet # outletはprivateにする
   - prohibited_super_call # いくつかのメソッドにおいてはsuperを呼び出すべきではない
   - redundant_nil_coalescing # nil結合演算子において，左辺がnilの場合のみ評価される性質上，右辺にnilを書くのは冗長なため，書くべきでない
