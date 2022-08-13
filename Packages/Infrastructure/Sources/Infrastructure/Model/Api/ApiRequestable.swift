@@ -13,11 +13,9 @@ public protocol ApiRequestable {
     var baseUrl: String { get }
     var path: String { get }
     var method: String { get }
-
     var headerFields: [String: String] { get }
     var queryItems: [URLQueryItem]? { get }
     var bodyItems: [String: Any]? { get }
-
     var urlRequest: URLRequest? { get }
 }
 
@@ -44,7 +42,6 @@ extension ApiRequestable {
             urlComponents?.queryItems = queryItems
             return urlComponents?.url
         }()
-
         log("URL", url ?? "")
 
         guard let url = url else {

@@ -10,7 +10,7 @@ import Foundation
 
 public struct GitHubRepoRepositoryImpl: GitHubRepoRepository {
 
-    public let apiRemoteDataSource: ApiRemoteDataSource
+    private let apiRemoteDataSource: ApiRemoteDataSource
 
     public init(apiRemoteDataSource: ApiRemoteDataSource) {
         self.apiRemoteDataSource = apiRemoteDataSource

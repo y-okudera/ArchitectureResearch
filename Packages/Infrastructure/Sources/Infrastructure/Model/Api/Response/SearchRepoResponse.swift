@@ -8,6 +8,6 @@
 import Domain
 import Foundation
 
-public struct SearchRepoResponse: Decodable {
-    public let items: [GitHubRepo]
+struct SearchRepoResponse: Decodable {
+    let items: [GitHubRepo]
 }

@@ -38,13 +38,10 @@ public struct GitHubApiPagination {
             return
         }
 
-        let dictionary =
-            linkField
-            .components(separatedBy: ",")
+        let dictionary = linkField.components(separatedBy: ",")
             .reduce(into: [String: String]()) {
                 let components = $1.components(separatedBy: "; ")
-                let cleanPath = components[safe: 0]?.trimmingCharacters(
-                    in: CharacterSet(charactersIn: " <>"))
+                let cleanPath = components[safe: 0]?.trimmingCharacters(in: CharacterSet(charactersIn: " <>"))
                 if let key = components[safe: 1] {
                     $0[key] = cleanPath
                 }
@@ -56,6 +53,7 @@ public struct GitHubApiPagination {
             }
             return URL(string: next)
         }()
+        log("nextUrl", nextUrl?.absoluteString ?? "nil")
 
 #if DEBUG
         let firstUrl: URL? = {
@@ -70,7 +68,6 @@ public struct GitHubApiPagination {
             }
             return URL(string: last)
         }()
-        log("nextUrl", nextUrl?.absoluteString ?? "nil")
         log("firstUrl", firstUrl?.absoluteString ?? "nil")
         log("lastUrl", lastUrl?.absoluteString ?? "nil")
 #endif

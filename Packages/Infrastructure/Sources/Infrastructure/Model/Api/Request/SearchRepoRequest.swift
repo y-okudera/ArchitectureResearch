@@ -7,26 +7,26 @@
 
 import Foundation
 
-public struct SearchRepoRequest: ApiRequestable {
-    public typealias Response = SearchRepoResponse
+struct SearchRepoRequest: ApiRequestable {
+    typealias Response = SearchRepoResponse
 
     private let searchQuery: String
     private let page: Int
 
-    public init(searchQuery: String, page: Int = 1) {
+    init(searchQuery: String, page: Int = 1) {
         self.searchQuery = searchQuery
         self.page = page
     }
 
-    public var path: String {
+    var path: String {
         return "/search/repositories"
     }
 
-    public var method: String {
+    var method: String {
         return "GET"
     }
 
-    public var queryItems: [URLQueryItem]? {
+    var queryItems: [URLQueryItem]? {
         return [
             .init(name: "q", value: searchQuery),
             .init(name: "order", value: "desc"),
