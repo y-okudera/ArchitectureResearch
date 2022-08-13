@@ -13,6 +13,7 @@ public protocol ApiRequestable {
     var baseUrl: String { get }
     var path: String { get }
     var method: String { get }
+    var timeoutInterval: TimeInterval { get }
     var headerFields: [String: String] { get }
     var queryItems: [URLQueryItem]? { get }
     var bodyItems: [String: Any]? { get }
@@ -22,6 +23,10 @@ public protocol ApiRequestable {
 extension ApiRequestable {
     public var baseUrl: String {
         return "https://api.github.com"
+    }
+
+    public var timeoutInterval: TimeInterval {
+        return 30.0
     }
 
     public var headerFields: [String: String] {
@@ -50,6 +55,7 @@ extension ApiRequestable {
         let urlRequest: URLRequest = {
             var request = URLRequest(url: url)
             request.httpMethod = method
+            request.timeoutInterval = timeoutInterval
             headerFields.forEach { key, value in
                 request.addValue(value, forHTTPHeaderField: key)
             }

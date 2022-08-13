@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum ApiError: LocalizedError {
+public enum ApiError: Error {
     /// 通信エラー
     case cannotConnected
     /// 不正なリクエスト
@@ -53,7 +53,7 @@ public enum ApiError: LocalizedError {
     }
 }
 
-extension ApiError {
+extension ApiError: LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .cannotConnected:
@@ -70,6 +70,54 @@ extension ApiError {
             return "デコードエラーが発生しました。\n\(decodingError.localizedDescription)"
         case .unknown(let error):
             return "予期せぬエラーが発生しました。\n\(error.localizedDescription)"
+        }
+    }
+}
+
+extension ApiError: CustomNSError {
+
+    /// The domain of the error.
+    public static var errorDomain: String {
+        return "Infrastructure.ApiError"
+    }
+
+    /// The error code within the given domain.
+    public var errorCode: Int {
+        switch self {
+        case .cannotConnected:
+            return 0
+        case .invalidRequest:
+            return 1
+        case .invalidResponse:
+            return 2
+        case .clientError:
+            return 3
+        case .serverError:
+            return 4
+        case .decodeError:
+            return 5
+        case .unknown:
+            return 6
+        }
+    }
+
+    /// The user-info dictionary.
+    public var errorUserInfo: [String: Any] {
+        switch self {
+        case .cannotConnected:
+            return [:]
+        case .invalidRequest:
+            return [:]
+        case .invalidResponse(let error):
+            return (error as NSError).userInfo
+        case .clientError:
+            return [:]
+        case .serverError:
+            return [:]
+        case .decodeError(let decodingError):
+            return (decodingError as NSError).userInfo
+        case .unknown(let error):
+            return (error as NSError).userInfo
         }
     }
 }

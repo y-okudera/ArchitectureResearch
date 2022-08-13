@@ -29,7 +29,7 @@ public struct ApiRemoteDataSourceImpl: ApiRemoteDataSource {
         } catch let apiError as ApiError {
             throw apiError
         } catch {
-            throw ApiError.invalidResponse(error)
+            throw ApiError(error: error)
         }
     }
 
