@@ -7,17 +7,16 @@
 
 import Foundation
 
-public struct SearchRepoViewData {
-    public private(set) var hasNext: Bool
-    public private(set) var items: [GitHubRepo]
+public actor SearchRepoViewData {
+    public let hasNext: Bool
+    public let items: [GitHubRepo]
 
     public init(hasNext: Bool, items: [GitHubRepo]) {
         self.hasNext = hasNext
         self.items = items
     }
 
-    public mutating func append(viewData: SearchRepoViewData) {
-        self.hasNext = viewData.hasNext
-        self.items.append(contentsOf: viewData.items)
+    public nonisolated var numberOfItems: Int {
+        return items.count
     }
 }

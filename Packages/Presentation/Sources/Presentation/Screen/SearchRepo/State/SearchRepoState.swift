@@ -8,11 +8,11 @@
 import Domain
 import Foundation
 
-struct SearchRepoState {
+actor SearchRepoState {
+    nonisolated let viewData: SearchRepoViewData
     var isLoading: Bool
     var page: Int
     var searchQuery: String
-    var viewData: SearchRepoViewData
 
     init(isLoading: Bool, page: Int, searchQuery: String, viewData: SearchRepoViewData) {
         self.isLoading = isLoading
@@ -20,17 +20,11 @@ struct SearchRepoState {
         self.searchQuery = searchQuery
         self.viewData = viewData
     }
+}
 
-    mutating func update(
-        isLoading: Bool? = nil,
-        page: Int? = nil,
-        searchQuery: String? = nil,
-        viewData: SearchRepoViewData? = nil
-    ) {
-        self.isLoading = isLoading ?? self.isLoading
-        self.page = page ?? self.page
-        self.searchQuery = searchQuery ?? self.searchQuery
-        self.viewData = viewData ?? self.viewData
+extension SearchRepoState {
+    func update(isLoading: Bool) {
+        self.isLoading = isLoading
     }
 
     func isEnabledSearch(searchQuery: String?) -> Bool {
@@ -45,7 +39,7 @@ struct SearchRepoState {
         return true
     }
 
-    func isEnabledLoadMore() -> Bool {
+    func isEnabledLoadMore() async -> Bool {
         guard !isLoading else {
             log("isLoading")
             return false
@@ -54,11 +48,15 @@ struct SearchRepoState {
             log("searchQuery.isEmpty")
             return false
         }
-        guard !viewData.items.isEmpty else {
+
+        let itemsIsEmpty = await viewData.items.isEmpty
+        guard !itemsIsEmpty else {
             log("viewData.items.isEmpty")
             return false
         }
-        guard viewData.hasNext else {
+
+        let hasNext = await viewData.hasNext
+        guard hasNext else {
             log("has no next data.")
             return false
         }

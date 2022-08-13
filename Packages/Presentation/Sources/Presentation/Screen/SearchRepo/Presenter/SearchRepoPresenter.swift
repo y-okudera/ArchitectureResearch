@@ -11,10 +11,9 @@ import Foundation
 protocol SearchRepoPresenter {
     var state: SearchRepoState { get }
     func search(searchQuery: String?) async throws -> Bool
-    func didScroll(offsetY: Double, threshold: Double, edgeOffset: Double) async throws -> Bool
-    func reachedbottom() async throws -> Bool
-    func finishLoading()
-    func didSelectRow(at indexPath: IndexPath)
+    func reachedBottom() async throws -> Bool
+    func finishLoading() async
+    func didSelectRow(at indexPath: IndexPath) async
 }
 
 final class SearchRepoPresenterImpl: SearchRepoPresenter {
@@ -30,39 +29,50 @@ final class SearchRepoPresenterImpl: SearchRepoPresenter {
     }
 
     func search(searchQuery: String?) async throws -> Bool {
-        guard state.isEnabledSearch(searchQuery: searchQuery) else {
+        guard await state.isEnabledSearch(searchQuery: searchQuery) else {
             return false
         }
-        state.update(isLoading: true)
+
+        await state.update(isLoading: true)
+
         let viewData = try await gitHubRepoRepository.search(searchQuery: searchQuery ?? "", page: 1)
-        state.update(isLoading: false, page: 2, searchQuery: searchQuery, viewData: viewData)
+
+        state = .init(
+            isLoading: false,
+            page: 2,
+            searchQuery: searchQuery ?? "",
+            viewData: viewData
+        )
+
         return true
     }
 
-    func didScroll(offsetY: Double, threshold: Double, edgeOffset: Double) async throws -> Bool {
-        guard state.isEnabledLoadMore() else {
-            return false
-        }
-        guard offsetY + edgeOffset > threshold else {
-            return false
-        }
-        return true
-    }
+    func reachedBottom() async throws -> Bool {
+        log("追加読み込み state.searchQuery: \(await state.searchQuery) state.page: \(await state.page)")
 
-    func reachedbottom() async throws -> Bool {
-        log("追加読み込み state.searchQuery: \(state.searchQuery) state.page: \(state.page)")
-        state.update(isLoading: true)
+        await state.update(isLoading: true)
+
         let viewData = try await gitHubRepoRepository.search(searchQuery: state.searchQuery, page: state.page)
-        state.update(isLoading: false, page: state.page + 1)
-        state.viewData.append(viewData: viewData)
+
+        state = await .init(
+            isLoading: false,
+            page: state.page + 1,
+            searchQuery: state.searchQuery,
+            viewData: .init(
+                hasNext: viewData.hasNext,
+                items: state.viewData.items + viewData.items
+            )
+        )
+
         return true
     }
 
-    func finishLoading() {
-        state.update(isLoading: false)
+    func finishLoading() async {
+        await state.update(isLoading: false)
     }
 
-    func didSelectRow(at indexPath: IndexPath) {
-        wireframe.pushGeneralWebView(initialUrl: state.viewData.items[indexPath.row].htmlUrl)
+    func didSelectRow(at indexPath: IndexPath) async {
+        let initialUrl = await state.viewData.items[indexPath.row].htmlUrl
+        wireframe.pushGeneralWebView(initialUrl: initialUrl)
     }
 }

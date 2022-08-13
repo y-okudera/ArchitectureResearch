@@ -5,6 +5,7 @@
 //  Created by Yuki Okudera on 2022/08/12.
 //
 
+import Combine
 import UIKit
 
 final class SearchRepoViewController: UIViewController {
@@ -18,13 +19,17 @@ final class SearchRepoViewController: UIViewController {
     }
 
     private var searchBar: UISearchBar!
-
     private(set) var presenter: SearchRepoPresenter!
+    private var cancellables: Set<AnyCancellable> = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "リポジトリ検索"
         setupSearchBar()
+        tableView
+            .reachedBottomPublisher(offset: 100.0)
+            .sink { [weak self] in self?.reachedBottom() }
+            .store(in: &cancellables)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -53,6 +58,27 @@ extension SearchRepoViewController {
         navigationItem.titleView?.frame = searchBar.frame
         self.searchBar = searchBar
     }
+
+    private func reachedBottom() {
+        Task {
+            do {
+                let isEnabledLoadMore = await presenter.state.isEnabledLoadMore()
+                if !isEnabledLoadMore {
+                    return
+                }
+                showLoading(isOverlay: false)
+                let loadingResult = try await presenter.reachedBottom()
+                if loadingResult {
+                    tableView.reloadData()
+                }
+                hideLoading()
+            } catch {
+                await showAlert(title: "エラー", message: error.localizedDescription, actionTitle: "OK")
+                await presenter.finishLoading()
+                reachedBottom()
+            }
+        }
+    }
 }
 
 // MARK: - UISearchBarDelegate
@@ -64,9 +90,9 @@ extension SearchRepoViewController: UISearchBarDelegate {
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
+        showLoading(isOverlay: true)
         Task {
             do {
-                showLoading(isOverlay: true)
                 let searchResult = try await presenter.search(searchQuery: searchBar.text)
                 if searchResult {
                     tableView.setContentOffset(.zero, animated: false)
@@ -75,7 +101,7 @@ extension SearchRepoViewController: UISearchBarDelegate {
                 hideLoading()
             } catch {
                 await showAlert(title: "エラー", message: error.localizedDescription, actionTitle: "OK")
-                presenter.finishLoading()
+                await presenter.finishLoading()
                 searchBarSearchButtonClicked(searchBar)
             }
         }
@@ -91,35 +117,10 @@ extension SearchRepoViewController: UISearchBarDelegate {
     }
 }
 
-// MARK: - UIScrollViewDelegate
-extension SearchRepoViewController: UIScrollViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let offsetY = scrollView.contentOffset.y + scrollView.contentInset.top
-        let visibleHeight = scrollView.frame.height - scrollView.contentInset.top - scrollView.contentInset.bottom
-        let threshold = max(0.0, scrollView.contentSize.height - visibleHeight)
-        Task {
-            do {
-                let scrollResult = try await presenter.didScroll(offsetY: offsetY, threshold: threshold, edgeOffset: 100.0)
-                guard scrollResult else { return }
-                showLoading(isOverlay: false)
-                let loadingResult = try await presenter.reachedbottom()
-                if loadingResult {
-                    tableView.reloadData()
-                }
-                hideLoading()
-            } catch {
-                await showAlert(title: "エラー", message: error.localizedDescription, actionTitle: "OK")
-                presenter.finishLoading()
-                scrollViewDidScroll(scrollView)
-            }
-        }
-    }
-}
-
 // MARK: - UITableViewDataSource
 extension SearchRepoViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        presenter.state.viewData.items.count
+        return presenter.state.viewData.numberOfItems
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -129,7 +130,7 @@ extension SearchRepoViewController: UITableViewDataSource {
             let contentConfiguration: UIListContentConfiguration = await {
                 var configuration = cell.defaultContentConfiguration()
 
-                let gitHubRepo = presenter.state.viewData.items[indexPath.row]
+                let gitHubRepo = await presenter.state.viewData.items[indexPath.row]
                 configuration.text = gitHubRepo.fullName
                 configuration.secondaryText = gitHubRepo.description
 
@@ -149,6 +150,8 @@ extension SearchRepoViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension SearchRepoViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        presenter.didSelectRow(at: indexPath)
+        Task {
+            await presenter.didSelectRow(at: indexPath)
+        }
     }
 }
