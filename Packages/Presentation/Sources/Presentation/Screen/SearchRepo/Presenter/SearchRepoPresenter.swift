@@ -59,7 +59,7 @@ final class SearchRepoPresenterImpl: SearchRepoPresenter {
     }
 
     func reachedbottom() async throws -> Bool {
-        print("追加読み込み state.page = \(state.page)")
+        log("追加読み込み state.page = \(state.page)")
         state.update(isLoading: true)
         let viewData = try await gitHubRepoRepository.search(searchQuery: state.searchQuery, page: state.page)
         state.update(isLoading: false, page: state.page + 1)

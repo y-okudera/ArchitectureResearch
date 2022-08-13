@@ -45,7 +45,7 @@ extension ApiRequestable {
             return urlComponents?.url
         }()
 
-        print("URL", url ?? "")
+        log("URL", url ?? "")
 
         guard let url = url else {
             return nil

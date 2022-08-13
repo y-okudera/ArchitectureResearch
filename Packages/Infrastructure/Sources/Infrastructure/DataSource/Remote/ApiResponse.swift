@@ -20,7 +20,7 @@ public struct ApiResponse<T: Decodable> {
         self.statusCode = httpURLResponse.statusCode
         self.responseHeaderFields = httpURLResponse.allHeaderFields
         self.gitHubApiPagination = .init(httpURLResponse: httpURLResponse)
-        print("Requested URL \(httpURLResponse.url?.absoluteString ?? "nil")")
+        log("Requested URL \(httpURLResponse.url?.absoluteString ?? "nil")")
     }
 }
 
@@ -57,23 +57,23 @@ public struct GitHubApiPagination {
             return URL(string: next)
         }()
 
-        #if DEBUG
-            let firstUrl: URL? = {
-                guard let first = dictionary["rel=\"first\""] else {
-                    return nil
-                }
-                return URL(string: first)
-            }()
-            let lastUrl: URL? = {
-                guard let last = dictionary["rel=\"last\""] else {
-                    return nil
-                }
-                return URL(string: last)
-            }()
-            print("nextUrl", nextUrl?.absoluteString ?? "nil")
-            print("firstUrl", firstUrl?.absoluteString ?? "nil")
-            print("lastUrl", lastUrl?.absoluteString ?? "nil")
-        #endif
+#if DEBUG
+        let firstUrl: URL? = {
+            guard let first = dictionary["rel=\"first\""] else {
+                return nil
+            }
+            return URL(string: first)
+        }()
+        let lastUrl: URL? = {
+            guard let last = dictionary["rel=\"last\""] else {
+                return nil
+            }
+            return URL(string: last)
+        }()
+        log("nextUrl", nextUrl?.absoluteString ?? "nil")
+        log("firstUrl", firstUrl?.absoluteString ?? "nil")
+        log("lastUrl", lastUrl?.absoluteString ?? "nil")
+#endif
 
         self = .init(hasNext: nextUrl != nil)
     }
