@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// @mockable
 public protocol ApiRemoteDataSource {
     func sendRequest<T: ApiRequestable>(_ apiRequest: T) async throws -> ApiResponse<T.Response>
 }
