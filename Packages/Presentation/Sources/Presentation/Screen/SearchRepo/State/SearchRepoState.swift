@@ -32,4 +32,36 @@ struct SearchRepoState {
         self.searchQuery = searchQuery ?? self.searchQuery
         self.viewData = viewData ?? self.viewData
     }
+
+    func isEnabledSearch(searchQuery: String?) -> Bool {
+        guard !isLoading else {
+            log("isLoading")
+            return false
+        }
+        guard !searchQuery.isNilOrEmpty else {
+            log("searchQuery.isNilOrEmpty")
+            return false
+        }
+        return true
+    }
+
+    func isEnabledLoadMore() -> Bool {
+        guard !isLoading else {
+            log("isLoading")
+            return false
+        }
+        guard !searchQuery.isEmpty else {
+            log("searchQuery.isEmpty")
+            return false
+        }
+        guard !viewData.items.isEmpty else {
+            log("viewData.items.isEmpty")
+            return false
+        }
+        guard viewData.hasNext else {
+            log("has no next data.")
+            return false
+        }
+        return true
+    }
 }

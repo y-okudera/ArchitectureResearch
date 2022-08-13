@@ -71,8 +71,8 @@ extension SearchRepoViewController: UISearchBarDelegate {
                 if searchResult {
                     tableView.setContentOffset(.zero, animated: false)
                     tableView.reloadData()
-                    hideLoading()
                 }
+                hideLoading()
             } catch {
                 await showAlert(title: "エラー", message: error.localizedDescription, actionTitle: "OK")
                 presenter.finishLoading()
@@ -103,8 +103,9 @@ extension SearchRepoViewController: UIScrollViewDelegate {
                 guard scrollResult else { return }
                 showLoading(isOverlay: false)
                 let loadingResult = try await presenter.reachedbottom()
-                guard loadingResult else { return }
-                tableView.reloadData()
+                if loadingResult {
+                    tableView.reloadData()
+                }
                 hideLoading()
             } catch {
                 await showAlert(title: "エラー", message: error.localizedDescription, actionTitle: "OK")

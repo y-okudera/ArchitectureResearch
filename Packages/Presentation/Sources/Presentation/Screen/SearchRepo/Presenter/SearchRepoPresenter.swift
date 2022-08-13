@@ -30,36 +30,27 @@ final class SearchRepoPresenterImpl: SearchRepoPresenter {
     }
 
     func search(searchQuery: String?) async throws -> Bool {
-        guard !state.isLoading else {
-            return false
-        }
-        guard let searchQuery = searchQuery, !searchQuery.isEmpty else {
+        guard state.isEnabledSearch(searchQuery: searchQuery) else {
             return false
         }
         state.update(isLoading: true)
-        let viewData = try await gitHubRepoRepository.search(searchQuery: searchQuery, page: 1)
+        let viewData = try await gitHubRepoRepository.search(searchQuery: searchQuery ?? "", page: 1)
         state.update(isLoading: false, page: 2, searchQuery: searchQuery, viewData: viewData)
         return true
     }
 
     func didScroll(offsetY: Double, threshold: Double, edgeOffset: Double) async throws -> Bool {
-        guard !state.isLoading else {
+        guard state.isEnabledLoadMore() else {
             return false
         }
-        guard !state.searchQuery.isEmpty else {
-            return false
-        }
-        guard state.viewData.hasNext else {
-            return false
-        }
-        guard offsetY > threshold - edgeOffset else {
+        guard offsetY + edgeOffset > threshold else {
             return false
         }
         return true
     }
 
     func reachedbottom() async throws -> Bool {
-        log("追加読み込み state.page = \(state.page)")
+        log("追加読み込み state.searchQuery: \(state.searchQuery) state.page: \(state.page)")
         state.update(isLoading: true)
         let viewData = try await gitHubRepoRepository.search(searchQuery: state.searchQuery, page: state.page)
         state.update(isLoading: false, page: state.page + 1)
