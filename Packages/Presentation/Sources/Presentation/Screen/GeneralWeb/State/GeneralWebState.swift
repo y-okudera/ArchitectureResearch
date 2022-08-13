@@ -8,7 +8,7 @@
 import Domain
 import Foundation
 
-struct GeneralWebState {
+final actor GeneralWebState {
     let initialUrl: URL
 
     init(initialUrl: URL) {
