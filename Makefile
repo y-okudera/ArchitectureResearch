@@ -17,6 +17,10 @@ bootstrap: ## Install tools
 project: ## Generate project
 	make swiftgen
 
+.PHONY: mock
+mock: ## Generate mock
+	./Tools/MockoloTool/.build/arm64-apple-macosx/release/mockolo --enable-args-history -s Packages/Infrastructure/Sources -d Packages/Infrastructure/Tests/InfrastructureTests/TestHelper/Mock/Generated/Mock.swift -i Infrastructure
+
 .PHONY: swiftgen
 swiftgen: ## Generate resources swift files.
 	swift run -c release --package-path ./Tools/Common swiftgen
@@ -38,3 +42,4 @@ build-cli-tools: ## Build CLI tools managed by SwiftPM
 	swift build -c release --package-path ./Tools/Common --product license-plist
 	swift build -c release --package-path ./Tools/Common --product swiftgen
 	swift build -c release --package-path ./Tools/SwiftLintTool --product swiftlint
+	swift build -c release --package-path ./Tools/MockoloTool --product mockolo
