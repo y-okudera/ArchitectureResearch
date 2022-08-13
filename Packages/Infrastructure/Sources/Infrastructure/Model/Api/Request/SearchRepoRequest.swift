@@ -13,7 +13,7 @@ struct SearchRepoRequest: ApiRequestable {
     private let searchQuery: String
     private let page: Int
 
-    init(searchQuery: String, page: Int = 1) {
+    init(searchQuery: String, page: Int) {
         self.searchQuery = searchQuery
         self.page = page
     }
