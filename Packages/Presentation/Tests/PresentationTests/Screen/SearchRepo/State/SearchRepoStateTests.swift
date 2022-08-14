@@ -24,6 +24,9 @@ final class SearchRepoStateTests: XCTestCase {
         XCTAssertEqual(page, 1)
         let searchQuery = await searchRepoState.searchQuery
         XCTAssertEqual(searchQuery, "")
+        let hasNext = await searchRepoState.viewData.hasNext
+        XCTAssertEqual(hasNext, true)
+        XCTAssertEqual(searchRepoState.viewData.numberOfItems, 0)
     }
 }
 
