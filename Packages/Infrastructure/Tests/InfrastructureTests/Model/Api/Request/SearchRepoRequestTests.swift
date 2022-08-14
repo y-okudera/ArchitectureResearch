@@ -11,12 +11,12 @@ import XCTest
 final class SearchRepoRequestTests: XCTestCase {
 
     func testInit() {
-        let sut = SearchRepoRequest(searchQuery: "test", page: 1)
-        XCTAssertEqual(sut.path, "/search/repositories")
-        XCTAssertEqual(sut.method, "GET")
-        XCTAssertEqual(sut.queryItems?[0], .init(name: "q", value: "test"))
-        XCTAssertEqual(sut.queryItems?[1], .init(name: "order", value: "desc"))
-        XCTAssertEqual(sut.queryItems?[2], .init(name: "per_page", value: "20"))
-        XCTAssertEqual(sut.queryItems?[3], .init(name: "page", value: "1"))
+        let searchRepoRequest = SearchRepoRequest(searchQuery: "test", page: 1)
+        XCTAssertEqual(searchRepoRequest.path, "/search/repositories")
+        XCTAssertEqual(searchRepoRequest.method, "GET")
+        XCTAssertEqual(searchRepoRequest.queryItems?[0], .init(name: "q", value: "test"))
+        XCTAssertEqual(searchRepoRequest.queryItems?[1], .init(name: "order", value: "desc"))
+        XCTAssertEqual(searchRepoRequest.queryItems?[2], .init(name: "per_page", value: "20"))
+        XCTAssertEqual(searchRepoRequest.queryItems?[3], .init(name: "page", value: "1"))
     }
 }

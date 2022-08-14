@@ -30,6 +30,12 @@ let package = Package(
         ),
         .testTarget(
             name: "InfrastructureTests",
-            dependencies: ["Infrastructure"]),
+            dependencies: [
+                "Infrastructure"
+            ],
+            resources: [
+                .copy("TestHelper/Resources/Assets.xcassets"),
+            ]
+        ),
     ]
 )

@@ -15,7 +15,7 @@ final class ApiRemoteDataSourceTests: XCTestCase {
     /// Expectation: Successful API request.
     /// - 200 OK
     /// - 299 Unknown Code
-    func testSendRequestWhenReturnedSuccess() async {
+    func testSendRequestWhenReturnedSuccess() async throws {
         let expectation = XCTestExpectation(description: "Successful API request.")
 
         typealias Input = (line: UInt, statusCode: Int, sleep: Int)
@@ -29,21 +29,17 @@ final class ApiRemoteDataSourceTests: XCTestCase {
             expectation: expectation
         )
 
-        await paramTest.runTest { testCase in
+        try await paramTest.runTest { testCase in
             // Setup
             let dummyRequest = DummyRequest(statusCode: testCase.input.statusCode, sleep: testCase.input.sleep)
 
-            do {
-                // Exercise SUT
-                let result = try await ApiRemoteDataSourceImpl(urlSession: .shared).sendRequest(dummyRequest)
+            // Exercise
+            let result = try await ApiRemoteDataSourceImpl(urlSession: .shared).sendRequest(dummyRequest)
 
-                // Verify
-                XCTAssertEqual(result.response.code, testCase.expect.code, line: testCase.input.line)
-                XCTAssertEqual(result.response.description, testCase.expect.description, line: testCase.input.line)
-                expectation.fulfill()
-            } catch {
-                XCTFail("Unexpected case.")
-            }
+            // Verify
+            XCTAssertEqual(result.response.code, testCase.expect.code, line: testCase.input.line)
+            XCTAssertEqual(result.response.description, testCase.expect.description, line: testCase.input.line)
+            expectation.fulfill()
         }
         wait(for: [expectation], timeout: 1.0)
     }
@@ -51,7 +47,7 @@ final class ApiRemoteDataSourceTests: XCTestCase {
     /// API request test.
     ///
     /// Expectation: API request timed out.
-    func testSendRequestWhenTimedOut() async {
+    func testSendRequestWhenTimedOut() async throws {
         let expectation = XCTestExpectation(description: "API request timed out.")
 
         typealias Input = (line: UInt, statusCode: Int, sleep: Int)
@@ -64,13 +60,14 @@ final class ApiRemoteDataSourceTests: XCTestCase {
             expectation: expectation
         )
 
-        await paramTest.runTest { testCase in
+        try await paramTest.runTest { testCase in
             // Setup
             let dummyRequest = DummyRequest(statusCode: testCase.input.statusCode, sleep: testCase.input.sleep)
 
             do {
-                // Exercise SUT
+                // Exercise
                 _ = try await ApiRemoteDataSourceImpl(urlSession: .shared).sendRequest(dummyRequest)
+                XCTFail("No error was thrown.")
             } catch {
                 // Verify
                 XCTAssertEqual((error as NSError).domain, "Infrastructure.ApiError", line: testCase.input.line)

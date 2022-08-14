@@ -9,7 +9,7 @@ import XCTest
 
 final class ParameterizedTest<Input, Expect> {
     typealias TestCase = (input: Input, expect: Expect)
-    typealias TestingBlock = (TestCase) async -> Void
+    typealias TestingBlock = (TestCase) async throws -> Void
 
     private var testCases = [TestCase]()
 
@@ -18,9 +18,9 @@ final class ParameterizedTest<Input, Expect> {
         expectation.expectedFulfillmentCount = testCases.count
     }
 
-    func runTest(testingBlock: TestingBlock) async {
+    func runTest(testingBlock: TestingBlock) async throws {
         for testCase in testCases {
-            await testingBlock(testCase)
+            try await testingBlock(testCase)
         }
     }
 }
