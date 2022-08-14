@@ -67,10 +67,8 @@ extension SearchRepoViewController {
                     return
                 }
                 showLoading(isOverlay: false)
-                let loadingResult = try await presenter.reachedBottom()
-                if loadingResult {
-                    tableView.reloadData()
-                }
+                try await presenter.reachedBottom()
+                tableView.reloadData()
                 hideLoading()
             } catch {
                 await showAlert(title: "エラー", message: error.localizedDescription, actionTitle: "OK")

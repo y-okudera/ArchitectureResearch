@@ -8,6 +8,7 @@
 import Core
 import UIKit
 
+/// @mockable
 protocol SearchRepoWireframe: AnyObject {
     var environment: AppEnvironment { get }
     func configure(viewController: UIViewController?)

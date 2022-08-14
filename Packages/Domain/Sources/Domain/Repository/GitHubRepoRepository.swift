@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// @mockable
 public protocol GitHubRepoRepository {
     func search(searchQuery: String, page: Int) async throws -> SearchRepoViewData
 }

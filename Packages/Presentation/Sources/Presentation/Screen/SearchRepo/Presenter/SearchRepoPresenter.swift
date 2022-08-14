@@ -11,7 +11,7 @@ import Foundation
 protocol SearchRepoPresenter {
     var state: SearchRepoState { get }
     func search(searchQuery: String?) async throws -> Bool
-    func reachedBottom() async throws -> Bool
+    func reachedBottom() async throws
     func finishLoading() async
     func didSelectRow(at indexPath: IndexPath) async
 }
@@ -47,7 +47,7 @@ final class SearchRepoPresenterImpl: SearchRepoPresenter {
         return true
     }
 
-    func reachedBottom() async throws -> Bool {
+    func reachedBottom() async throws {
         log("追加読み込み state.searchQuery: \(await state.searchQuery) state.page: \(await state.page)")
 
         await state.update(isLoading: true)
@@ -63,8 +63,6 @@ final class SearchRepoPresenterImpl: SearchRepoPresenter {
                 items: state.viewData.items + viewData.items
             )
         )
-
-        return true
     }
 
     func finishLoading() async {
