@@ -33,20 +33,20 @@ extension UIViewController {
     func showLoading(isOverlay: Bool) {
         hideLoading()
         
-        let lottieView = LottieView(frame: self.view.frame)
-        lottieView.setup(isOverlay: isOverlay, assetName: "octocat")
-        lottieView.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(lottieView)
+        let loadingView = LoadingView(frame: self.view.frame)
+        loadingView.setup(isOverlay: isOverlay, lottieAssetName: "octocat")
+        loadingView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(loadingView)
         NSLayoutConstraint.activate([
-            lottieView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            lottieView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            lottieView.topAnchor.constraint(equalTo: self.view.topAnchor),
-            lottieView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            loadingView.topAnchor.constraint(equalTo: self.view.topAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
         ])
     }
 
     func hideLoading() {
-        self.view.findViews(subclassOf: LottieView.self)
+        self.view.findViews(subclassOf: LoadingView.self)
             .forEach { $0.removeFromSuperview() }
     }
 }

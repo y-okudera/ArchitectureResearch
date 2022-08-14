@@ -1,5 +1,5 @@
 //
-//  LottieView.swift
+//  LoadingView.swift
 //  
 //
 //  Created by Yuki Okudera on 2022/08/12.
@@ -8,7 +8,7 @@
 import Lottie
 import UIKit
 
-final class LottieView: UIView {
+final class LoadingView: UIView {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
@@ -17,8 +17,8 @@ final class LottieView: UIView {
         super.init(frame: frame)
     }
 
-    func setup(isOverlay: Bool, assetName: String) {
-        let animationView = AnimationView(asset: assetName)
+    func setup(isOverlay: Bool, lottieAssetName: String) {
+        let animationView = AnimationView(asset: lottieAssetName)
         animationView.contentMode = .scaleAspectFit
         animationView.loopMode = .loop
         animationView.play()
