@@ -6,13 +6,14 @@
 //
 
 @testable import Presentation
+import Domain
 import Infrastructure
 import XCTest
 
 final class SearchRepoPresenterTests: XCTestCase {
 
     private var searchRepoState: SearchRepoState!
-    private var gitHubRepoRepositoryMock = GitHubRepoRepositoryMock()
+    private var searchRepoUseCaseMock = SearchRepoUseCaseMock()
     private var searchRepoWireframeMock = SearchRepoWireframeMock()
 
     override func setUp() {
@@ -22,7 +23,7 @@ final class SearchRepoPresenterTests: XCTestCase {
             searchQuery: "",
             viewData: .init(hasNext: true, items: [])
         )
-        gitHubRepoRepositoryMock = GitHubRepoRepositoryMock()
+        searchRepoUseCaseMock = SearchRepoUseCaseMock()
         searchRepoWireframeMock = SearchRepoWireframeMock()
     }
 }
@@ -33,7 +34,7 @@ extension SearchRepoPresenterTests {
         // Exercise
         let searchRepoPresenterImpl = SearchRepoPresenterImpl(
             state: searchRepoState,
-            gitHubRepoRepository: gitHubRepoRepositoryMock,
+            searchRepoUseCase: searchRepoUseCaseMock,
             wireframe: searchRepoWireframeMock
         )
 
@@ -56,7 +57,7 @@ extension SearchRepoPresenterTests {
         // Setup
         let searchRepoPresenterImpl = SearchRepoPresenterImpl(
             state: searchRepoState,
-            gitHubRepoRepository: gitHubRepoRepositoryMock,
+            searchRepoUseCase: searchRepoUseCaseMock,
             wireframe: searchRepoWireframeMock
         )
         await searchRepoPresenterImpl.state.update(isLoading: true)
@@ -70,7 +71,7 @@ extension SearchRepoPresenterTests {
 
     func testSearch() async throws {
         // Setup
-        gitHubRepoRepositoryMock.searchHandler = { _, _ in
+        searchRepoUseCaseMock.executeHandler = { _, _ in
             return .init(
                 hasNext: true,
                 items: [
@@ -95,7 +96,7 @@ extension SearchRepoPresenterTests {
 
         let searchRepoPresenterImpl = SearchRepoPresenterImpl(
             state: searchRepoState,
-            gitHubRepoRepository: gitHubRepoRepositoryMock,
+            searchRepoUseCase: searchRepoUseCaseMock,
             wireframe: searchRepoWireframeMock
         )
 
@@ -111,7 +112,7 @@ extension SearchRepoPresenterTests {
 
     func testReachedBottomWhenCannotConnected() async throws {
         // Setup
-        gitHubRepoRepositoryMock.searchHandler = { _, _ in
+        searchRepoUseCaseMock.executeHandler = { _, _ in
             throw ApiError.cannotConnected
         }
         searchRepoState = SearchRepoState(
@@ -142,7 +143,7 @@ extension SearchRepoPresenterTests {
 
         let searchRepoPresenterImpl = SearchRepoPresenterImpl(
             state: searchRepoState,
-            gitHubRepoRepository: gitHubRepoRepositoryMock,
+            searchRepoUseCase: searchRepoUseCaseMock,
             wireframe: searchRepoWireframeMock
         )
 
@@ -158,7 +159,7 @@ extension SearchRepoPresenterTests {
 
     func testReachedBottom() async throws {
         // Setup
-        gitHubRepoRepositoryMock.searchHandler = { _, _ in
+        searchRepoUseCaseMock.executeHandler = { _, _ in
             return .init(
                 hasNext: false,
                 items: [
@@ -208,7 +209,7 @@ extension SearchRepoPresenterTests {
 
         let searchRepoPresenterImpl = SearchRepoPresenterImpl(
             state: searchRepoState,
-            gitHubRepoRepository: gitHubRepoRepositoryMock,
+            searchRepoUseCase: searchRepoUseCaseMock,
             wireframe: searchRepoWireframeMock
         )
 
@@ -229,7 +230,7 @@ extension SearchRepoPresenterTests {
         )
         let searchRepoPresenterImpl = SearchRepoPresenterImpl(
             state: searchRepoState,
-            gitHubRepoRepository: gitHubRepoRepositoryMock,
+            searchRepoUseCase: searchRepoUseCaseMock,
             wireframe: searchRepoWireframeMock
         )
 
@@ -274,7 +275,7 @@ extension SearchRepoPresenterTests {
 
         let searchRepoPresenterImpl = SearchRepoPresenterImpl(
             state: searchRepoState,
-            gitHubRepoRepository: gitHubRepoRepositoryMock,
+            searchRepoUseCase: searchRepoUseCaseMock,
             wireframe: searchRepoWireframeMock
         )
 

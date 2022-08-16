@@ -20,6 +20,7 @@ project: ## Generate project
 .PHONY: mock
 mock: ## Generate mock
 	./Tools/MockoloTool/.build/arm64-apple-macosx/release/mockolo --enable-args-history -s Packages/Infrastructure/Sources -d Packages/Infrastructure/Tests/InfrastructureTests/TestHelper/Mock/Generated/InfrastructureMock.swift -i Infrastructure
+	./Tools/MockoloTool/.build/arm64-apple-macosx/release/mockolo --enable-args-history -s Packages/Domain/Sources -d Packages/Domain/Tests/DomainTests/TestHelper/Mock/Generated/DomainMock.swift -i Domain
 	./Tools/MockoloTool/.build/arm64-apple-macosx/release/mockolo --enable-args-history -s Packages/Domain/Sources -d Packages/Presentation/Tests/PresentationTests/TestHelper/Mock/Generated/DomainMock.swift -i Domain
 	./Tools/MockoloTool/.build/arm64-apple-macosx/release/mockolo --enable-args-history -s Packages/Presentation/Sources -d Packages/Presentation/Tests/PresentationTests/TestHelper/Mock/Generated/PresentationMock.swift -i Presentation
 
