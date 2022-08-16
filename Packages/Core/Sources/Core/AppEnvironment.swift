@@ -18,4 +18,8 @@ public protocol AppEnvironment {
     // MARK: - Repository
 
     var gitHubRepoRepository: GitHubRepoRepository { get }
+
+    // MARK: - UseCase
+
+    var searchRepoUseCase: SearchRepoUseCase { get }
 }

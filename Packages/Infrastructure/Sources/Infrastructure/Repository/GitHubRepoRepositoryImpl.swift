@@ -16,9 +16,9 @@ public struct GitHubRepoRepositoryImpl: GitHubRepoRepository {
         self.apiRemoteDataSource = apiRemoteDataSource
     }
 
-    public func search(searchQuery: String, page: Int) async throws -> SearchRepoViewData {
+    public func search(searchQuery: String, page: Int) async throws -> (hasNext: Bool, items: [GitHubRepo]) {
         let request = SearchRepoRequest(searchQuery: searchQuery, page: page)
         let result = try await apiRemoteDataSource.sendRequest(request)
-        return SearchRepoViewData(hasNext: result.gitHubApiPagination?.hasNext ?? false, items: result.response.items)
+        return (hasNext: result.gitHubApiPagination?.hasNext ?? false, items: result.response.items)
     }
 }

@@ -22,4 +22,10 @@ final class Environment: AppEnvironment {
     var gitHubRepoRepository: GitHubRepoRepository {
         GitHubRepoRepositoryImpl(apiRemoteDataSource: self.apiRemoteDataSource)
     }
+
+    // MARK: - UseCase
+
+    var searchRepoUseCase: SearchRepoUseCase {
+        SearchRepoUseCaseImpl(gitHubRepoRepository: self.gitHubRepoRepository)
+    }
 }

@@ -13,7 +13,7 @@ public enum SearchRepoViewBuilder {
         let wireFrame = SearchRepoWireframeImpl(environment: environment)
         let presenter = SearchRepoPresenterImpl(
             state: .init(isLoading: false, page: 1, searchQuery: "", viewData: .init(hasNext: false, items: [])),
-            gitHubRepoRepository: environment.gitHubRepoRepository,
+            searchRepoUseCase: environment.searchRepoUseCase,
             wireframe: wireFrame
         )
         let viewController = SearchRepoViewController.instantiate()

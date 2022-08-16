@@ -19,12 +19,12 @@ protocol SearchRepoPresenter {
 final class SearchRepoPresenterImpl: SearchRepoPresenter {
 
     private(set) var state: SearchRepoState
-    private let gitHubRepoRepository: GitHubRepoRepository
+    private let searchRepoUseCase: SearchRepoUseCase
     private let wireframe: SearchRepoWireframe
 
-    init(state: SearchRepoState, gitHubRepoRepository: GitHubRepoRepository, wireframe: SearchRepoWireframe) {
+    init(state: SearchRepoState, searchRepoUseCase: SearchRepoUseCase, wireframe: SearchRepoWireframe) {
         self.state = state
-        self.gitHubRepoRepository = gitHubRepoRepository
+        self.searchRepoUseCase = searchRepoUseCase
         self.wireframe = wireframe
     }
 
@@ -35,7 +35,7 @@ final class SearchRepoPresenterImpl: SearchRepoPresenter {
 
         await state.update(isLoading: true)
 
-        let viewData = try await gitHubRepoRepository.search(searchQuery: searchQuery ?? "", page: 1)
+        let viewData = try await searchRepoUseCase.execute(searchQuery: searchQuery ?? "", page: 1)
 
         state = .init(
             isLoading: false,
@@ -52,7 +52,7 @@ final class SearchRepoPresenterImpl: SearchRepoPresenter {
 
         await state.update(isLoading: true)
 
-        let viewData = try await gitHubRepoRepository.search(searchQuery: state.searchQuery, page: state.page)
+        let viewData = try await searchRepoUseCase.execute(searchQuery: state.searchQuery, page: state.page)
 
         state = await .init(
             isLoading: false,
