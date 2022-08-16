@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SearchRepoRequest: ApiRequestable {
+struct SearchRepoRequest: ApiRequestable, Equatable {
     typealias Response = SearchRepoResponse
 
     private let searchQuery: String

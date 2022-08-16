@@ -72,26 +72,7 @@ extension SearchRepoPresenterTests {
     func testSearch() async throws {
         // Setup
         searchRepoUseCaseMock.executeHandler = { _, _ in
-            return .init(
-                hasNext: true,
-                items: [
-                    .init(
-                        id: 44838949,
-                        fullName: "apple/swift",
-                        description: "The Swift Programming Language",
-                        stargazersCount: 60306,
-                        language: "C++",
-                        htmlUrl: URL(string: "https://github.com/apple/swift")!,
-                        owner: .init(
-                            id: 10639145,
-                            login: "apple",
-                            avatarUrl: URL(string: "https://avatars.githubusercontent.com/u/10639145?v=4")!,
-                            htmlUrl: URL(string: "https://github.com/apple")!,
-                            type: "Organization"
-                        )
-                    )
-                ]
-            )
+            return .init(hasNext: true, items: .stub)
         }
 
         let searchRepoPresenterImpl = SearchRepoPresenterImpl(
@@ -105,6 +86,9 @@ extension SearchRepoPresenterTests {
 
         // Verify
         XCTAssertEqual(result, true)
+        XCTAssertEqual(searchRepoUseCaseMock.executeCallCount, 1)
+        XCTAssertEqual(searchRepoUseCaseMock.executeArgValues[0].0, "test")
+        XCTAssertEqual(searchRepoUseCaseMock.executeArgValues[0].1, 1)
     }
 }
 
@@ -119,26 +103,7 @@ extension SearchRepoPresenterTests {
             isLoading: false,
             page: 2,
             searchQuery: "test",
-            viewData: .init(
-                hasNext: false,
-                items: [
-                    .init(
-                        id: 44838949,
-                        fullName: "apple/swift",
-                        description: "The Swift Programming Language",
-                        stargazersCount: 60306,
-                        language: "C++",
-                        htmlUrl: URL(string: "https://github.com/apple/swift")!,
-                        owner: .init(
-                            id: 10639145,
-                            login: "apple",
-                            avatarUrl: URL(string: "https://avatars.githubusercontent.com/u/10639145?v=4")!,
-                            htmlUrl: URL(string: "https://github.com/apple")!,
-                            type: "Organization"
-                        )
-                    )
-                ]
-            )
+            viewData: .init(hasNext: false, items: .stub)
         )
 
         let searchRepoPresenterImpl = SearchRepoPresenterImpl(
@@ -160,51 +125,13 @@ extension SearchRepoPresenterTests {
     func testReachedBottom() async throws {
         // Setup
         searchRepoUseCaseMock.executeHandler = { _, _ in
-            return .init(
-                hasNext: false,
-                items: [
-                    .init(
-                        id: 790019,
-                        fullName: "openstack/swift",
-                        description: "OpenStack Storage (Swift). Mirror of code maintained at opendev.org.",
-                        stargazersCount: 2323,
-                        language: "Python",
-                        htmlUrl: URL(string: "https://github.com/openstack/swift")!,
-                        owner: .init(
-                            id: 324574,
-                            login: "openstack",
-                            avatarUrl: URL(string: "https://avatars.githubusercontent.com/u/324574?v=4")!,
-                            htmlUrl: URL(string: "https://github.com/openstack")!,
-                            type: "Organization"
-                        )
-                    )
-                ]
-            )
+            return .init(hasNext: false, items: .stub)
         }
         searchRepoState = SearchRepoState(
             isLoading: false,
             page: 2,
             searchQuery: "test",
-            viewData: .init(
-                hasNext: false,
-                items: [
-                    .init(
-                        id: 44838949,
-                        fullName: "apple/swift",
-                        description: "The Swift Programming Language",
-                        stargazersCount: 60306,
-                        language: "C++",
-                        htmlUrl: URL(string: "https://github.com/apple/swift")!,
-                        owner: .init(
-                            id: 10639145,
-                            login: "apple",
-                            avatarUrl: URL(string: "https://avatars.githubusercontent.com/u/10639145?v=4")!,
-                            htmlUrl: URL(string: "https://github.com/apple")!,
-                            type: "Organization"
-                        )
-                    )
-                ]
-            )
+            viewData: .init(hasNext: false, items: .stub)
         )
 
         let searchRepoPresenterImpl = SearchRepoPresenterImpl(
@@ -215,6 +142,10 @@ extension SearchRepoPresenterTests {
 
         // Expect no throw error.
         try await searchRepoPresenterImpl.reachedBottom()
+
+        XCTAssertEqual(searchRepoUseCaseMock.executeCallCount, 1)
+        XCTAssertEqual(searchRepoUseCaseMock.executeArgValues[0].0, "test")
+        XCTAssertEqual(searchRepoUseCaseMock.executeArgValues[0].1, 2)
     }
 }
 
@@ -225,8 +156,8 @@ extension SearchRepoPresenterTests {
         searchRepoState = SearchRepoState(
             isLoading: true,
             page: 1,
-            searchQuery: "",
-            viewData: .init(hasNext: true, items: [])
+            searchQuery: "test",
+            viewData: .init(hasNext: true, items: .stub)
         )
         let searchRepoPresenterImpl = SearchRepoPresenterImpl(
             state: searchRepoState,
@@ -251,26 +182,7 @@ extension SearchRepoPresenterTests {
             isLoading: false,
             page: 2,
             searchQuery: "test",
-            viewData: .init(
-                hasNext: false,
-                items: [
-                    .init(
-                        id: 44838949,
-                        fullName: "apple/swift",
-                        description: "The Swift Programming Language",
-                        stargazersCount: 60306,
-                        language: "C++",
-                        htmlUrl: URL(string: "https://github.com/apple/swift")!,
-                        owner: .init(
-                            id: 10639145,
-                            login: "apple",
-                            avatarUrl: URL(string: "https://avatars.githubusercontent.com/u/10639145?v=4")!,
-                            htmlUrl: URL(string: "https://github.com/apple")!,
-                            type: "Organization"
-                        )
-                    )
-                ]
-            )
+            viewData: .init(hasNext: false, items: .stub)
         )
 
         let searchRepoPresenterImpl = SearchRepoPresenterImpl(

@@ -11,7 +11,7 @@ import XCTest
 final class SearchRepoResponseTests: XCTestCase {
 
     func testInit() throws {
-        let searchRepoResponse: SearchRepoResponse = try StubBuilder.build(assetName: "search_repositories")
+        let searchRepoResponse = SearchRepoResponse.stub
         XCTAssertEqual(searchRepoResponse.items.count, 1)
         XCTAssertEqual(searchRepoResponse.items[0].id, 44838949)
         XCTAssertEqual(searchRepoResponse.items[0].fullName, "apple/swift")

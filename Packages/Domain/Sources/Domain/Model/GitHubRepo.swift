@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct GitHubRepo: Decodable {
+public struct GitHubRepo: Decodable, Equatable {
     public let id: Int64
     public let fullName: String
     public let description: String?

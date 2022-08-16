@@ -140,26 +140,7 @@ extension SearchRepoStateTests {
             isLoading: false,
             page: 1,
             searchQuery: "test",
-            viewData: .init(
-                hasNext: false,
-                items: [
-                    .init(
-                        id: 44838949,
-                        fullName: "apple/swift",
-                        description: "The Swift Programming Language",
-                        stargazersCount: 60306,
-                        language: "C++",
-                        htmlUrl: URL(string: "https://github.com/apple/swift")!,
-                        owner: .init(
-                            id: 10639145,
-                            login: "apple",
-                            avatarUrl: URL(string: "https://avatars.githubusercontent.com/u/10639145?v=4")!,
-                            htmlUrl: URL(string: "https://github.com/apple")!,
-                            type: "Organization"
-                        )
-                    )
-                ]
-            )
+            viewData: .init(hasNext: false, items: .stub)
         )
 
         let isEnabledLoadMore = await searchRepoState.isEnabledLoadMore()
@@ -171,26 +152,7 @@ extension SearchRepoStateTests {
             isLoading: false,
             page: 1,
             searchQuery: "test",
-            viewData: .init(
-                hasNext: true,
-                items: [
-                    .init(
-                        id: 44838949,
-                        fullName: "apple/swift",
-                        description: "The Swift Programming Language",
-                        stargazersCount: 60306,
-                        language: "C++",
-                        htmlUrl: URL(string: "https://github.com/apple/swift")!,
-                        owner: .init(
-                            id: 10639145,
-                            login: "apple",
-                            avatarUrl: URL(string: "https://avatars.githubusercontent.com/u/10639145?v=4")!,
-                            htmlUrl: URL(string: "https://github.com/apple")!,
-                            type: "Organization"
-                        )
-                    )
-                ]
-            )
+            viewData: .init(hasNext: true, items: .stub)
         )
 
         let isEnabledLoadMore = await searchRepoState.isEnabledLoadMore()
