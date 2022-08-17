@@ -29,6 +29,6 @@ final class SearchRepoUseCaseTests: XCTestCase {
         let hasNext = await result.hasNext
         XCTAssertEqual(hasNext, true)
         let items = await result.items
-        XCTAssertEqual(items, .stub)
+        items.verifyEqualToStub()
     }
 }

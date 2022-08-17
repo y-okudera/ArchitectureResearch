@@ -7,6 +7,7 @@
 
 import Domain
 import Foundation
+import XCTest
 
 extension Array where Element == GitHubRepo {
     static var stub: Self {
@@ -27,5 +28,9 @@ extension Array where Element == GitHubRepo {
                 )
             )
         ]
+    }
+
+    func verifyEqualToStub(stub: Self = .stub) {
+        XCTAssertEqual(self, stub)
     }
 }

@@ -10,36 +10,25 @@ import XCTest
 
 final class SearchRepoStateTests: XCTestCase {
 
-    func testInit() async {
-        let searchRepoState = SearchRepoState(
+    var searchRepoState: SearchRepoState!
+
+    override func setUp() {
+        searchRepoState = SearchRepoState(
             isLoading: false,
             page: 1,
             searchQuery: "",
             viewData: .init(hasNext: true, items: [])
         )
+    }
 
-        let isLoading = await searchRepoState.isLoading
-        XCTAssertEqual(isLoading, false)
-        let page = await searchRepoState.page
-        XCTAssertEqual(page, 1)
-        let searchQuery = await searchRepoState.searchQuery
-        XCTAssertEqual(searchQuery, "")
-        let hasNext = await searchRepoState.viewData.hasNext
-        XCTAssertEqual(hasNext, true)
-        XCTAssertEqual(searchRepoState.viewData.numberOfItems, 0)
+    func testInit() async {
+        await searchRepoState.verify(isLoading: false, page: 1, searchQuery: "", hasNext: true, numberOfItems: 0)
     }
 }
 
 extension SearchRepoStateTests {
 
     func testUpdateIsLoading() async {
-        let searchRepoState = SearchRepoState(
-            isLoading: false,
-            page: 1,
-            searchQuery: "",
-            viewData: .init(hasNext: true, items: [])
-        )
-
         await searchRepoState.update(isLoading: true)
         let isLoading = await searchRepoState.isLoading
         XCTAssertEqual(isLoading, true)
@@ -49,7 +38,7 @@ extension SearchRepoStateTests {
 extension SearchRepoStateTests {
 
     func testIsEnabledSearchWhenIsLoading() async {
-        let searchRepoState = SearchRepoState(
+        searchRepoState = SearchRepoState(
             isLoading: true,
             page: 1,
             searchQuery: "",
@@ -61,37 +50,16 @@ extension SearchRepoStateTests {
     }
 
     func testIsEnabledSearchWhenSearchQueryIsEmpty() async {
-        let searchRepoState = SearchRepoState(
-            isLoading: false,
-            page: 1,
-            searchQuery: "",
-            viewData: .init(hasNext: true, items: [])
-        )
-
         let isEnabledSearch = await searchRepoState.isEnabledSearch(searchQuery: "")
         XCTAssertEqual(isEnabledSearch, false)
     }
 
     func testIsEnabledSearchWhenSearchQueryIsNil() async {
-        let searchRepoState = SearchRepoState(
-            isLoading: false,
-            page: 1,
-            searchQuery: "",
-            viewData: .init(hasNext: true, items: [])
-        )
-
         let isEnabledSearch = await searchRepoState.isEnabledSearch(searchQuery: nil)
         XCTAssertEqual(isEnabledSearch, false)
     }
 
     func testIsEnabledSearch() async {
-        let searchRepoState = SearchRepoState(
-            isLoading: false,
-            page: 1,
-            searchQuery: "",
-            viewData: .init(hasNext: true, items: [])
-        )
-
         let isEnabledSearch = await searchRepoState.isEnabledSearch(searchQuery: "test")
         XCTAssertEqual(isEnabledSearch, true)
     }
@@ -100,7 +68,7 @@ extension SearchRepoStateTests {
 extension SearchRepoStateTests {
 
     func testIsEnabledLoadMoreWhenIsLoading() async {
-        let searchRepoState = SearchRepoState(
+        searchRepoState = SearchRepoState(
             isLoading: true,
             page: 1,
             searchQuery: "",
@@ -112,19 +80,12 @@ extension SearchRepoStateTests {
     }
 
     func testIsEnabledLoadMoreWhenSearchQueryIsEmpty() async {
-        let searchRepoState = SearchRepoState(
-            isLoading: false,
-            page: 1,
-            searchQuery: "",
-            viewData: .init(hasNext: true, items: [])
-        )
-
         let isEnabledLoadMore = await searchRepoState.isEnabledLoadMore()
         XCTAssertEqual(isEnabledLoadMore, false)
     }
 
     func testIsEnabledLoadMoreWhenItemsIsEmpty() async {
-        let searchRepoState = SearchRepoState(
+        searchRepoState = SearchRepoState(
             isLoading: false,
             page: 1,
             searchQuery: "test",
@@ -136,7 +97,7 @@ extension SearchRepoStateTests {
     }
 
     func testIsEnabledLoadMoreWhenHasNotNext() async {
-        let searchRepoState = SearchRepoState(
+        searchRepoState = SearchRepoState(
             isLoading: false,
             page: 1,
             searchQuery: "test",
@@ -148,7 +109,7 @@ extension SearchRepoStateTests {
     }
 
     func testIsEnabledLoadMore() async {
-        let searchRepoState = SearchRepoState(
+        searchRepoState = SearchRepoState(
             isLoading: false,
             page: 1,
             searchQuery: "test",

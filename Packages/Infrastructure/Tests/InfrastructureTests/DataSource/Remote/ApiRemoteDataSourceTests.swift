@@ -23,8 +23,8 @@ final class ApiRemoteDataSourceTests: XCTestCase {
 
         let paramTest = ParameterizedTest<Input, Expect>(
             testCases: [
-                (input: (line: #line, statusCode: 200, sleep: 100), expect: (code: 200, description: "OK")),
-                (input: (line: #line, statusCode: 299, sleep: 100), expect: (code: 299, description: "299 Unknown Code")),
+                (input: (line: #line, statusCode: 200, sleep: 0), expect: (code: 200, description: "OK")),
+                (input: (line: #line, statusCode: 299, sleep: 0), expect: (code: 299, description: "299 Unknown Code")),
             ],
             expectation: expectation
         )
@@ -46,16 +46,19 @@ final class ApiRemoteDataSourceTests: XCTestCase {
 
     /// API request test.
     ///
-    /// Expectation: API request timed out.
-    func testSendRequestWhenTimedOut() async throws {
+    /// Expectation: API request fails.
+    func testSendRequestWhenErrorOccurred() async throws {
         let expectation = XCTestExpectation(description: "API request timed out.")
 
         typealias Input = (line: UInt, statusCode: Int, sleep: Int)
-        typealias Expect = (code: Int, description: String)
+        typealias Expect = (errorDomain: String, errorCode: Int)
 
         let paramTest = ParameterizedTest<Input, Expect>(
             testCases: [
-                (input: (line: #line, statusCode: 200, sleep: 2_000), expect: (code: 200, description: "OK")),
+                (input: (line: #line, statusCode: 200, sleep: 2_000), expect: (errorDomain: "Infrastructure.ApiError", errorCode: 0)),
+                (input: (line: #line, statusCode: 400, sleep: 0), expect: (errorDomain: "Infrastructure.ApiError", errorCode: 3)),
+                (input: (line: #line, statusCode: 500, sleep: 0), expect: (errorDomain: "Infrastructure.ApiError", errorCode: 4)),
+                (input: (line: #line, statusCode: 600, sleep: 0), expect: (errorDomain: "Infrastructure.ApiError", errorCode: 2)),
             ],
             expectation: expectation
         )
@@ -70,8 +73,8 @@ final class ApiRemoteDataSourceTests: XCTestCase {
                 XCTFail("No error was thrown.")
             } catch {
                 // Verify
-                XCTAssertEqual((error as NSError).domain, "Infrastructure.ApiError", line: testCase.input.line)
-                XCTAssertEqual((error as NSError).code, 0, line: testCase.input.line)
+                XCTAssertEqual((error as NSError).domain, testCase.expect.errorDomain, line: testCase.input.line)
+                XCTAssertEqual((error as NSError).code, testCase.expect.errorCode, line: testCase.input.line)
                 expectation.fulfill()
             }
         }

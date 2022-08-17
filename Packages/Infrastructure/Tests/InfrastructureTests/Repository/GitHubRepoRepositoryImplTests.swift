@@ -16,10 +16,10 @@ final class GitHubRepoRepositoryImplTests: XCTestCase {
         apiRemoteDataSourceMock.sendRequestHandler = { _ in
             let responseObject = SearchRepoResponse.stub
             let httpURLResponse = HTTPURLResponse(
-                url: URL(string: "https://api.github.com/search/repositories?q=Swift&order=desc&per_page=20&page=1")!,
+                url: URL(string: "https://api.github.com/search/repositories?q=test&order=desc&per_page=20&page=1")!,
                 statusCode: 200,
                 httpVersion: nil,
-                headerFields: ["Link": "<https://api.github.com/search/repositories?q=Swift&order=desc&per_page=20&page=2>; rel=\"next\", <https://api.github.com/search/repositories?q=Swift&order=desc&per_page=20&page=50>; rel=\"last\""]
+                headerFields: ["Link": "<https://api.github.com/search/repositories?q=test&order=desc&per_page=20&page=2>; rel=\"next\", <https://api.github.com/search/repositories?q=test&order=desc&per_page=20&page=50>; rel=\"last\""]
             )!
             return ApiResponse(response: responseObject, httpURLResponse: httpURLResponse)
         }
@@ -33,6 +33,6 @@ final class GitHubRepoRepositoryImplTests: XCTestCase {
         XCTAssertEqual(firstArgValue, .init(searchQuery: "test", page: 1))
         XCTAssertEqual(apiRemoteDataSourceMock.sendRequestCallCount, 1)
         XCTAssertEqual(result.hasNext, true)
-        SearchRepoResponse(items: result.items).verifyEqualToStub()
+        result.items.verifyEqualToStub()
     }
 }
