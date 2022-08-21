@@ -74,6 +74,25 @@ extension ApiError: LocalizedError {
             return "予期せぬエラーが発生しました。\n\(error.localizedDescription)"
         }
     }
+
+    public var recoverySuggestion: String? {
+        switch self {
+        case .cannotConnected:
+            return "通信状況をご確認し、再度お試しください。"
+        case .invalidRequest:
+            return nil
+        case let .invalidResponse(error):
+            return (error as NSError).localizedRecoverySuggestion
+        case .clientError:
+            return nil
+        case .serverError:
+            return nil
+        case let .decodeError(decodingError):
+            return (decodingError as NSError).localizedRecoverySuggestion
+        case let .unknown(error):
+            return (error as NSError).localizedRecoverySuggestion
+        }
+    }
 }
 
 // MARK: CustomNSError
@@ -81,7 +100,7 @@ extension ApiError: CustomNSError {
 
     /// The domain of the error.
     public static var errorDomain: String {
-        "Infrastructure.ApiError"
+        "Domain.ApiError"
     }
 
     /// The error code within the given domain.

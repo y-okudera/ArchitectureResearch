@@ -12,7 +12,7 @@ public enum SearchRepoViewBuilder {
     public static func build(environment: AppEnvironment) -> UIViewController {
         let wireFrame = SearchRepoWireframeImpl(environment: environment)
         let presenter = SearchRepoPresenterImpl(
-            state: .init(isLoading: false, page: 1, searchQuery: "", viewData: .init(hasNext: false, items: [])),
+            state: .init(isLoading: false, page: 1, searchQuery: "", hasNext: false),
             searchRepoUseCase: environment.searchRepoUseCase,
             wireframe: wireFrame
         )

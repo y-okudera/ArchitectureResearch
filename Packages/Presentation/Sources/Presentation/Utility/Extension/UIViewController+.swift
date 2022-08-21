@@ -30,6 +30,23 @@ extension UIViewController {
         }
     }
 
+    func showConfirm(title: String?, message: String?, actionTitle: String, cancelActionTitle: String) async -> Bool {
+        await withCheckedContinuation { [weak self] continuation in
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            alert.addAction(
+                UIAlertAction(title: actionTitle, style: .default) { _ in
+                    continuation.resume(returning: true)
+                }
+            )
+            alert.addAction(
+                UIAlertAction(title: cancelActionTitle, style: .cancel) { _ in
+                    continuation.resume(returning: false)
+                }
+            )
+            self?.present(alert, animated: true)
+        }
+    }
+
     func showLoading(isOverlay: Bool) {
         hideLoading()
 

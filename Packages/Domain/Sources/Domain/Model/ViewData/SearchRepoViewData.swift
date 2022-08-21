@@ -15,8 +15,4 @@ public actor SearchRepoViewData {
         self.hasNext = hasNext
         self.items = items
     }
-
-    public nonisolated var numberOfItems: Int {
-        items.count
-    }
 }

@@ -11,10 +11,10 @@ import Foundation
 // MARK: - SearchRepoPresenter
 protocol SearchRepoPresenter {
     var state: SearchRepoState { get }
-    func search(searchQuery: String?) async throws -> Bool
-    func reachedBottom() async throws
+    func search(searchQuery: String?) async throws -> [GitHubRepo]?
+    func reachedBottom() async throws -> [GitHubRepo]
     func finishLoading() async
-    func didSelectRow(at indexPath: IndexPath) async
+    func didSelect(data: GitHubRepo)
 }
 
 // MARK: - SearchRepoPresenterImpl
@@ -30,49 +30,33 @@ final class SearchRepoPresenterImpl: SearchRepoPresenter {
         self.wireframe = wireframe
     }
 
-    func search(searchQuery: String?) async throws -> Bool {
+    func search(searchQuery: String?) async throws -> [GitHubRepo]? {
         guard await state.isEnabledSearch(searchQuery: searchQuery) else {
-            return false
+            return nil
         }
-
         await state.update(isLoading: true)
-
         let viewData = try await searchRepoUseCase.execute(searchQuery: searchQuery ?? "", page: 1)
-
-        state = .init(
-            isLoading: false,
-            page: 2,
-            searchQuery: searchQuery ?? "",
-            viewData: viewData
-        )
-
-        return true
+        let hasNext = await viewData.hasNext
+        await state.update(isLoading: false, page: 2, searchQuery: searchQuery, hasNext: hasNext)
+        let items = await viewData.items
+        return items
     }
 
-    func reachedBottom() async throws {
+    func reachedBottom() async throws -> [GitHubRepo] {
         log("追加読み込み state.searchQuery: \(await state.searchQuery) state.page: \(await state.page)")
-
         await state.update(isLoading: true)
-
         let viewData = try await searchRepoUseCase.execute(searchQuery: state.searchQuery, page: state.page)
-
-        state = await .init(
-            isLoading: false,
-            page: state.page + 1,
-            searchQuery: state.searchQuery,
-            viewData: .init(
-                hasNext: viewData.hasNext,
-                items: state.viewData.items + viewData.items
-            )
-        )
+        let hasNext = await viewData.hasNext
+        await state.update(isLoading: false, page: state.page + 1, searchQuery: state.searchQuery, hasNext: hasNext)
+        let items = await viewData.items
+        return items
     }
 
     func finishLoading() async {
         await state.update(isLoading: false)
     }
 
-    func didSelectRow(at indexPath: IndexPath) async {
-        let initialUrl = await state.viewData.items[indexPath.row].htmlUrl
-        wireframe.pushGeneralWebView(initialUrl: initialUrl)
+    func didSelect(data: GitHubRepo) {
+        wireframe.pushGeneralWebView(initialUrl: data.htmlUrl)
     }
 }

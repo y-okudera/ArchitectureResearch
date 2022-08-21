@@ -6,6 +6,7 @@
 //
 
 import Combine
+import Domain
 import UIKit
 
 // MARK: - SearchRepoViewController
@@ -13,12 +14,15 @@ final class SearchRepoViewController: UIViewController {
 
     @IBOutlet private weak var tableView: UITableView! {
         willSet {
-            newValue.dataSource = self
             newValue.delegate = self
             newValue.keyboardDismissMode = .onDrag
         }
+        didSet {
+            tableView.dataSource = searchRepoDiffableDataSource.dataSource
+        }
     }
 
+    private lazy var searchRepoDiffableDataSource = SearchRepoDiffableDataSource(tableView: self.tableView)
     private var searchBar: UISearchBar!
     private(set) var presenter: SearchRepoPresenter!
     private var cancellables: Set<AnyCancellable> = []
@@ -68,13 +72,27 @@ extension SearchRepoViewController {
                     return
                 }
                 showLoading(isOverlay: false)
-                try await presenter.reachedBottom()
-                tableView.reloadData()
+                let searchResult = try await presenter.reachedBottom()
+                searchRepoDiffableDataSource.append(data: searchResult)
+                hideLoading()
+            } catch SearchRepoError.noResults {
+                let nsError = SearchRepoError.noResults as NSError
+                await showAlert(title: nsError.localizedDescription, message: nsError.localizedRecoverySuggestion, actionTitle: "OK")
+                await presenter.finishLoading()
                 hideLoading()
             } catch {
-                await showAlert(title: "エラー", message: error.localizedDescription, actionTitle: "OK")
+                let nsError = error as NSError
+                let result = await showConfirm(
+                    title: nsError.localizedDescription,
+                    message: nsError.localizedRecoverySuggestion,
+                    actionTitle: "リトライ",
+                    cancelActionTitle: "キャンセル"
+                )
                 await presenter.finishLoading()
-                reachedBottom()
+                hideLoading()
+                if result {
+                    reachedBottom()
+                }
             }
         }
     }
@@ -92,16 +110,28 @@ extension SearchRepoViewController: UISearchBarDelegate {
         showLoading(isOverlay: true)
         Task {
             do {
-                let searchResult = try await presenter.search(searchQuery: searchBar.text)
-                if searchResult {
-                    tableView.setContentOffset(.zero, animated: false)
-                    tableView.reloadData()
+                if let searchResult = try await presenter.search(searchQuery: searchBar.text) {
+                    searchRepoDiffableDataSource.set(data: searchResult)
                 }
                 hideLoading()
-            } catch {
-                await showAlert(title: "エラー", message: error.localizedDescription, actionTitle: "OK")
+            } catch SearchRepoError.noResults {
+                let nsError = SearchRepoError.noResults as NSError
+                await showAlert(title: nsError.localizedDescription, message: nsError.localizedRecoverySuggestion, actionTitle: "OK")
                 await presenter.finishLoading()
-                searchBarSearchButtonClicked(searchBar)
+                hideLoading()
+            } catch {
+                let nsError = error as NSError
+                let result = await showConfirm(
+                    title: nsError.localizedDescription,
+                    message: nsError.localizedRecoverySuggestion,
+                    actionTitle: "リトライ",
+                    cancelActionTitle: "キャンセル"
+                )
+                await presenter.finishLoading()
+                hideLoading()
+                if result {
+                    searchBarSearchButtonClicked(searchBar)
+                }
             }
         }
     }
@@ -116,41 +146,12 @@ extension SearchRepoViewController: UISearchBarDelegate {
     }
 }
 
-// MARK: UITableViewDataSource
-extension SearchRepoViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        presenter.state.viewData.numberOfItems
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "GitHubRepoCell")
-
-        Task {
-            let contentConfiguration: UIListContentConfiguration = await {
-                var configuration = cell.defaultContentConfiguration()
-
-                let gitHubRepo = await presenter.state.viewData.items[indexPath.row]
-                configuration.text = gitHubRepo.fullName
-                configuration.secondaryText = gitHubRepo.description
-
-                let imageMaximumSize = CGSize(width: 35, height: 35)
-                configuration.imageProperties.maximumSize = imageMaximumSize
-                configuration.imageProperties.cornerRadius = imageMaximumSize.width / 2
-                configuration.image = await UIImage.load(url: gitHubRepo.owner.avatarUrl)
-
-                return configuration
-            }()
-            cell.contentConfiguration = contentConfiguration
-        }
-        return cell
-    }
-}
-
 // MARK: UITableViewDelegate
 extension SearchRepoViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        Task {
-            await presenter.didSelectRow(at: indexPath)
+        guard let item = searchRepoDiffableDataSource.dataSource.itemIdentifier(for: indexPath) else {
+            return
         }
+        presenter.didSelect(data: item.data)
     }
 }
