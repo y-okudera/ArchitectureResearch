@@ -1,6 +1,6 @@
 //
 //  SearchRepoViewData.swift
-//  
+//
 //
 //  Created by Yuki Okudera on 2022/08/12.
 //
@@ -17,6 +17,6 @@ public actor SearchRepoViewData {
     }
 
     public nonisolated var numberOfItems: Int {
-        return items.count
+        items.count
     }
 }

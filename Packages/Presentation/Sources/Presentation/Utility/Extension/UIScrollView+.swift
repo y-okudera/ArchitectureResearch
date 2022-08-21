@@ -1,6 +1,6 @@
 //
 //  UIScrollView+.swift
-//  
+//
 //
 //  Created by Yuki Okudera on 2022/08/13.
 //
@@ -23,7 +23,9 @@ extension UIScrollView {
     func reachedBottomPublisher(offset: CGFloat = 0) -> AnyPublisher<Void, Never> {
         contentOffsetPublisher
             .map { [weak self] contentOffset -> Bool in
-                guard let self = self else { return false }
+                guard let self = self else {
+                    return false
+                }
                 let visibleHeight = self.frame.height - self.contentInset.top - self.contentInset.bottom
                 let yDelta = contentOffset.y + self.contentInset.top
                 let threshold = max(offset, self.contentSize.height - visibleHeight)

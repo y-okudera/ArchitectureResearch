@@ -138,9 +138,9 @@
 		B6A5123F28A54D2D00C8FA1A /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				B6A5124028A54D2D00C8FA1A /* Infrastructure */,
-				B6A5124428A55F6600C8FA1A /* Domain */,
 				B6A5124B28A570C800C8FA1A /* Core */,
+				B6A5124428A55F6600C8FA1A /* Domain */,
+				B6A5124028A54D2D00C8FA1A /* Infrastructure */,
 				B6A5125128A5799F00C8FA1A /* Presentation */,
 			);
 			name = Packages;

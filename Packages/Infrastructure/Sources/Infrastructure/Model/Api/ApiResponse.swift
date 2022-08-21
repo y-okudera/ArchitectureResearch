@@ -1,12 +1,13 @@
 //
 //  ApiResponse.swift
-//  
+//
 //
 //  Created by Yuki Okudera on 2022/08/12.
 //
 
 import Foundation
 
+// MARK: - ApiResponse
 public struct ApiResponse<T: Decodable> {
     public let response: T
     public let statusCode: Int
@@ -17,14 +18,14 @@ public struct ApiResponse<T: Decodable> {
 
     public init(response: T, httpURLResponse: HTTPURLResponse) {
         self.response = response
-        self.statusCode = httpURLResponse.statusCode
-        self.responseHeaderFields = httpURLResponse.allHeaderFields
-        self.gitHubApiPagination = .init(httpURLResponse: httpURLResponse)
+        statusCode = httpURLResponse.statusCode
+        responseHeaderFields = httpURLResponse.allHeaderFields
+        gitHubApiPagination = .init(httpURLResponse: httpURLResponse)
         log("Requested URL \(httpURLResponse.url?.absoluteString ?? "nil")")
     }
 }
 
-// MARK: GitHub API Pagination
+// MARK: - GitHubApiPagination
 public struct GitHubApiPagination {
     public let hasNext: Bool
 
@@ -55,22 +56,22 @@ public struct GitHubApiPagination {
         }()
         log("nextUrl", nextUrl?.absoluteString ?? "nil")
 
-#if DEBUG
-        let firstUrl: URL? = {
-            guard let first = dictionary["rel=\"first\""] else {
-                return nil
-            }
-            return URL(string: first)
-        }()
-        let lastUrl: URL? = {
-            guard let last = dictionary["rel=\"last\""] else {
-                return nil
-            }
-            return URL(string: last)
-        }()
-        log("firstUrl", firstUrl?.absoluteString ?? "nil")
-        log("lastUrl", lastUrl?.absoluteString ?? "nil")
-#endif
+        #if DEBUG
+            let firstUrl: URL? = {
+                guard let first = dictionary["rel=\"first\""] else {
+                    return nil
+                }
+                return URL(string: first)
+            }()
+            let lastUrl: URL? = {
+                guard let last = dictionary["rel=\"last\""] else {
+                    return nil
+                }
+                return URL(string: last)
+            }()
+            log("firstUrl", firstUrl?.absoluteString ?? "nil")
+            log("lastUrl", lastUrl?.absoluteString ?? "nil")
+        #endif
 
         self = .init(hasNext: nextUrl != nil)
     }

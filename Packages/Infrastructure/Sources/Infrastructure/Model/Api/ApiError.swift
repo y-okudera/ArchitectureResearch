@@ -1,12 +1,13 @@
 //
 //  ApiError.swift
-//  
+//
 //
 //  Created by Yuki Okudera on 2022/08/12.
 //
 
 import Foundation
 
+// MARK: - ApiError
 public enum ApiError: Error {
     /// 通信エラー
     case cannotConnected
@@ -32,15 +33,15 @@ public enum ApiError: Error {
         if let urlError = error as? URLError {
             switch urlError.code {
             case .timedOut,
-                    .cannotFindHost,
-                    .cannotConnectToHost,
-                    .networkConnectionLost,
-                    .dnsLookupFailed,
-                    .httpTooManyRedirects,
-                    .resourceUnavailable,
-                    .notConnectedToInternet,
-                    .secureConnectionFailed,
-                    .cannotLoadFromNetwork:
+                 .cannotFindHost,
+                 .cannotConnectToHost,
+                 .networkConnectionLost,
+                 .dnsLookupFailed,
+                 .httpTooManyRedirects,
+                 .resourceUnavailable,
+                 .notConnectedToInternet,
+                 .secureConnectionFailed,
+                 .cannotLoadFromNetwork:
                 self = ApiError.cannotConnected
             default:
                 self = ApiError.unknown(error)
@@ -53,6 +54,7 @@ public enum ApiError: Error {
     }
 }
 
+// MARK: LocalizedError
 extension ApiError: LocalizedError {
     public var errorDescription: String? {
         switch self {
@@ -60,25 +62,26 @@ extension ApiError: LocalizedError {
             return "通信エラーが発生しました。"
         case .invalidRequest:
             return "不正なリクエストです。"
-        case .invalidResponse(let error):
+        case let .invalidResponse(error):
             return "不正なレスポンスです。\n\(error.localizedDescription)"
-        case .clientError(let statusCode):
+        case let .clientError(statusCode):
             return "クライアントエラーが発生しました。(\(statusCode))"
-        case .serverError(let statusCode):
+        case let .serverError(statusCode):
             return "サーバエラーが発生しました。(\(statusCode))"
-        case .decodeError(let decodingError):
+        case let .decodeError(decodingError):
             return "デコードエラーが発生しました。\n\(decodingError.localizedDescription)"
-        case .unknown(let error):
+        case let .unknown(error):
             return "予期せぬエラーが発生しました。\n\(error.localizedDescription)"
         }
     }
 }
 
+// MARK: CustomNSError
 extension ApiError: CustomNSError {
 
     /// The domain of the error.
     public static var errorDomain: String {
-        return "Infrastructure.ApiError"
+        "Infrastructure.ApiError"
     }
 
     /// The error code within the given domain.
@@ -108,15 +111,15 @@ extension ApiError: CustomNSError {
             return [:]
         case .invalidRequest:
             return [:]
-        case .invalidResponse(let error):
+        case let .invalidResponse(error):
             return (error as NSError).userInfo
         case .clientError:
             return [:]
         case .serverError:
             return [:]
-        case .decodeError(let decodingError):
+        case let .decodeError(decodingError):
             return (decodingError as NSError).userInfo
-        case .unknown(let error):
+        case let .unknown(error):
             return (error as NSError).userInfo
         }
     }

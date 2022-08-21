@@ -1,6 +1,6 @@
 //
 //  SearchRepoStateTests.swift
-//  
+//
 //
 //  Created by Yuki Okudera on 2022/08/14.
 //
@@ -8,6 +8,7 @@
 @testable import Presentation
 import XCTest
 
+// MARK: - SearchRepoStateTests
 final class SearchRepoStateTests: XCTestCase {
 
     var searchRepoState: SearchRepoState!

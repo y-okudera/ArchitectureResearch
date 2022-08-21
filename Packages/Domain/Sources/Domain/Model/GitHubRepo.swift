@@ -1,6 +1,6 @@
 //
 //  GitHubRepo.swift
-//  
+//
 //
 //  Created by Yuki Okudera on 2022/08/12.
 //
@@ -15,7 +15,7 @@ public struct GitHubRepo: Decodable, Equatable {
     public let language: String?
     public let htmlUrl: URL
     public let owner: GitHubUser
-    
+
     public init(
         id: Int64,
         fullName: String,

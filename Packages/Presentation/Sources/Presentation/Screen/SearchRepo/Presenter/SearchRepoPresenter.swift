@@ -1,6 +1,6 @@
 //
 //  SearchRepoPresenter.swift
-//  
+//
 //
 //  Created by Yuki Okudera on 2022/08/12.
 //
@@ -8,6 +8,7 @@
 import Domain
 import Foundation
 
+// MARK: - SearchRepoPresenter
 protocol SearchRepoPresenter {
     var state: SearchRepoState { get }
     func search(searchQuery: String?) async throws -> Bool
@@ -16,6 +17,7 @@ protocol SearchRepoPresenter {
     func didSelectRow(at indexPath: IndexPath) async
 }
 
+// MARK: - SearchRepoPresenterImpl
 final class SearchRepoPresenterImpl: SearchRepoPresenter {
 
     private(set) var state: SearchRepoState

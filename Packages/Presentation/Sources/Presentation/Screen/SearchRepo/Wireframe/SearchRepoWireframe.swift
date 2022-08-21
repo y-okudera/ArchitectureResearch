@@ -1,6 +1,6 @@
 //
 //  SearchRepoWireframe.swift
-//  
+//
 //
 //  Created by Yuki Okudera on 2022/08/12.
 //
@@ -8,6 +8,7 @@
 import Core
 import UIKit
 
+// MARK: - SearchRepoWireframe
 /// @mockable
 protocol SearchRepoWireframe: AnyObject {
     var environment: AppEnvironment { get }
@@ -15,6 +16,7 @@ protocol SearchRepoWireframe: AnyObject {
     func pushGeneralWebView(initialUrl: URL)
 }
 
+// MARK: - SearchRepoWireframeImpl
 final class SearchRepoWireframeImpl: SearchRepoWireframe {
 
     private weak var viewController: UIViewController?
@@ -30,6 +32,6 @@ final class SearchRepoWireframeImpl: SearchRepoWireframe {
 
     func pushGeneralWebView(initialUrl: URL) {
         let generalWebVC = GeneralWebViewBuilder.build(environment: environment, initialUrl: initialUrl)
-        self.viewController?.navigationController?.pushViewController(generalWebVC, animated: true)
+        viewController?.navigationController?.pushViewController(generalWebVC, animated: true)
     }
 }

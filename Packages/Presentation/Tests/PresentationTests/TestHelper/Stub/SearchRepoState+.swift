@@ -1,6 +1,6 @@
 //
 //  SearchRepoState+.swift
-//  
+//
 //
 //  Created by Yuki Okudera on 2022/08/17.
 //
@@ -13,8 +13,8 @@ extension SearchRepoState {
         XCTAssertEqual(self.isLoading, isLoading)
         XCTAssertEqual(self.page, page)
         XCTAssertEqual(self.searchQuery, searchQuery)
-        let hasNextValue = await self.viewData.hasNext
+        let hasNextValue = await viewData.hasNext
         XCTAssertEqual(hasNextValue, hasNext)
-        XCTAssertEqual(self.viewData.numberOfItems, numberOfItems)
+        XCTAssertEqual(viewData.numberOfItems, numberOfItems)
     }
 }

@@ -1,6 +1,6 @@
 //
 //  SearchRepoPresenterTests.swift
-//  
+//
 //
 //  Created by Yuki Okudera on 2022/08/15.
 //
@@ -10,6 +10,7 @@ import Domain
 import Infrastructure
 import XCTest
 
+// MARK: - SearchRepoPresenterTests
 final class SearchRepoPresenterTests: XCTestCase {
 
     private var searchRepoState: SearchRepoState!
@@ -47,7 +48,7 @@ extension SearchRepoPresenterTests {
         XCTAssertEqual(searchQuery, "")
         let hasNext = await searchRepoPresenterImpl.state.viewData.hasNext
         XCTAssertEqual(hasNext, true)
-        XCTAssertEqual( searchRepoPresenterImpl.state.viewData.numberOfItems, 0)
+        XCTAssertEqual(searchRepoPresenterImpl.state.viewData.numberOfItems, 0)
     }
 }
 
@@ -72,7 +73,7 @@ extension SearchRepoPresenterTests {
     func testSearch() async throws {
         // Setup
         searchRepoUseCaseMock.executeHandler = { _, _ in
-            return .init(hasNext: true, items: .stub)
+            .init(hasNext: true, items: .stub)
         }
 
         let searchRepoPresenterImpl = SearchRepoPresenterImpl(
@@ -125,7 +126,7 @@ extension SearchRepoPresenterTests {
     func testReachedBottom() async throws {
         // Setup
         searchRepoUseCaseMock.executeHandler = { _, _ in
-            return .init(hasNext: false, items: .stub)
+            .init(hasNext: false, items: .stub)
         }
         searchRepoState = SearchRepoState(
             isLoading: false,

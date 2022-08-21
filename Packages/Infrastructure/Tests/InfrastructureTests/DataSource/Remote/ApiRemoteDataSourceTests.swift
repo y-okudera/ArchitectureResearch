@@ -1,6 +1,6 @@
 //
 //  ApiRemoteDataSourceTests.swift
-//  
+//
 //
 //  Created by Yuki Okudera on 2022/08/13.
 //
@@ -55,7 +55,7 @@ final class ApiRemoteDataSourceTests: XCTestCase {
 
         let paramTest = ParameterizedTest<Input, Expect>(
             testCases: [
-                (input: (line: #line, statusCode: 200, sleep: 2_000), expect: (errorDomain: "Infrastructure.ApiError", errorCode: 0)),
+                (input: (line: #line, statusCode: 200, sleep: 2000), expect: (errorDomain: "Infrastructure.ApiError", errorCode: 0)),
                 (input: (line: #line, statusCode: 400, sleep: 0), expect: (errorDomain: "Infrastructure.ApiError", errorCode: 3)),
                 (input: (line: #line, statusCode: 500, sleep: 0), expect: (errorDomain: "Infrastructure.ApiError", errorCode: 4)),
                 (input: (line: #line, statusCode: 600, sleep: 0), expect: (errorDomain: "Infrastructure.ApiError", errorCode: 2)),

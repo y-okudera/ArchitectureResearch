@@ -1,17 +1,19 @@
 //
 //  SearchRepoUseCase.swift
-//  
+//
 //
 //  Created by Yuki Okudera on 2022/08/16.
 //
 
 import Foundation
 
+// MARK: - SearchRepoUseCase
 /// @mockable
 public protocol SearchRepoUseCase {
     func execute(searchQuery: String, page: Int) async throws -> SearchRepoViewData
 }
 
+// MARK: - SearchRepoUseCaseImpl
 public struct SearchRepoUseCaseImpl: SearchRepoUseCase {
 
     private let gitHubRepoRepository: GitHubRepoRepository

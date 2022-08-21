@@ -1,6 +1,6 @@
 //
 //  DummyRequest.swift
-//  
+//
 //
 //  Created by Yuki Okudera on 2022/08/13.
 //
@@ -15,31 +15,23 @@ struct DummyRequest: ApiRequestable {
     let path: String
 
     init(statusCode: Int, sleep: Int) {
-        self.path = "/\(statusCode)"
+        path = "/\(statusCode)"
         self.sleep = sleep
     }
 
-    var baseUrl: String {
-        return "https://httpstat.us"
-    }
+    let baseUrl: String = "https://httpstat.us"
 
-    var method: String {
-        return "GET"
-    }
+    let method: String = "GET"
 
-    var timeoutInterval: TimeInterval {
-        return 2.0
-    }
+    let timeoutInterval: TimeInterval = 2.0
 
-    var headerFields: [String: String] {
-        return [
-            "Accept": "application/json",
-        ]
-    }
+    let headerFields: [String: String] = [
+        "Accept": "application/json",
+    ]
 
     var queryItems: [URLQueryItem]? {
-        return [
-            .init(name: "sleep", value: sleep.description),
+        [
+            .init(name: "sleep", value: "\(sleep)"),
         ]
     }
 }

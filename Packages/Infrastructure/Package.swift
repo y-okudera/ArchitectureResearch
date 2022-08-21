@@ -17,7 +17,7 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(name: "Domain", path: "../Domain")
+        .package(name: "Domain", path: "../Domain"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -25,13 +25,13 @@ let package = Package(
         .target(
             name: "Infrastructure",
             dependencies: [
-                .product(name: "Domain", package: "Domain")
+                .product(name: "Domain", package: "Domain"),
             ]
         ),
         .testTarget(
             name: "InfrastructureTests",
             dependencies: [
-                "Infrastructure"
+                "Infrastructure",
             ],
             resources: [
                 .copy("TestHelper/Resources/Assets.xcassets"),

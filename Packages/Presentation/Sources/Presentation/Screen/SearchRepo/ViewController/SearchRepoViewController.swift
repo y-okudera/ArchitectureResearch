@@ -1,6 +1,6 @@
 //
 //  SearchRepoViewController.swift
-//  
+//
 //
 //  Created by Yuki Okudera on 2022/08/12.
 //
@@ -8,6 +8,7 @@
 import Combine
 import UIKit
 
+// MARK: - SearchRepoViewController
 final class SearchRepoViewController: UIViewController {
 
     @IBOutlet private weak var tableView: UITableView! {
@@ -21,7 +22,7 @@ final class SearchRepoViewController: UIViewController {
     private var searchBar: UISearchBar!
     private(set) var presenter: SearchRepoPresenter!
     private var cancellables: Set<AnyCancellable> = []
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "リポジトリ検索"
@@ -79,7 +80,7 @@ extension SearchRepoViewController {
     }
 }
 
-// MARK: - UISearchBarDelegate
+// MARK: UISearchBarDelegate
 extension SearchRepoViewController: UISearchBarDelegate {
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         searchBar.showsCancelButton = true
@@ -115,10 +116,10 @@ extension SearchRepoViewController: UISearchBarDelegate {
     }
 }
 
-// MARK: - UITableViewDataSource
+// MARK: UITableViewDataSource
 extension SearchRepoViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return presenter.state.viewData.numberOfItems
+        presenter.state.viewData.numberOfItems
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -145,7 +146,7 @@ extension SearchRepoViewController: UITableViewDataSource {
     }
 }
 
-// MARK: - UITableViewDelegate
+// MARK: UITableViewDelegate
 extension SearchRepoViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         Task {

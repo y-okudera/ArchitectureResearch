@@ -1,6 +1,6 @@
 //
 //  SearchRepoRequest.swift
-//  
+//
 //
 //  Created by Yuki Okudera on 2022/08/12.
 //
@@ -18,20 +18,16 @@ struct SearchRepoRequest: ApiRequestable, Equatable {
         self.page = page
     }
 
-    var path: String {
-        return "/search/repositories"
-    }
+    let path: String = "/search/repositories"
 
-    var method: String {
-        return "GET"
-    }
+    let method: String = "GET"
 
     var queryItems: [URLQueryItem]? {
-        return [
+        [
             .init(name: "q", value: searchQuery),
             .init(name: "order", value: "desc"),
             .init(name: "per_page", value: "20"),
-            .init(name: "page", value: page.description),
+            .init(name: "page", value: "\(page)"),
         ]
     }
 }

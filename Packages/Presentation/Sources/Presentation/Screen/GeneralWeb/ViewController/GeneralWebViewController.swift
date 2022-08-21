@@ -1,6 +1,6 @@
 //
 //  GeneralWebViewController.swift
-//  
+//
 //
 //  Created by Yuki Okudera on 2022/08/12.
 //
@@ -8,6 +8,7 @@
 import UIKit
 import WebKit
 
+// MARK: - GeneralWebViewController
 final class GeneralWebViewController: UIViewController {
 
     @IBOutlet private weak var webView: WKWebView! {
@@ -17,7 +18,7 @@ final class GeneralWebViewController: UIViewController {
     }
 
     private(set) var presenter: GeneralWebPresenter!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         webView.load(URLRequest(url: presenter.state.initialUrl))
@@ -48,7 +49,7 @@ extension GeneralWebViewController {
     }
 }
 
-// MARK: - WKNavigationDelegate
+// MARK: WKNavigationDelegate
 extension GeneralWebViewController: WKNavigationDelegate {
     // ページ読み込みが開始された
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {

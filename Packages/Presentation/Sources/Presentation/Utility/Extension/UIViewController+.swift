@@ -1,6 +1,6 @@
 //
 //  UIViewController+.swift
-//  
+//
 //
 //  Created by Yuki Okudera on 2022/08/12.
 //
@@ -19,11 +19,11 @@ extension UIViewController {
     }
 
     func showAlert(title: String?, message: String?, actionTitle: String) async {
-        await withCheckedContinuation { [weak self] (continuation: CheckedContinuation<Void, Never>) -> Void in
+        await withCheckedContinuation { [weak self] (continuation: CheckedContinuation<Void, Never>) in
             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
             alert.addAction(
                 UIAlertAction(title: actionTitle, style: .default) { _ in
-                    return continuation.resume()
+                    continuation.resume()
                 }
             )
             self?.present(alert, animated: true)
@@ -32,21 +32,21 @@ extension UIViewController {
 
     func showLoading(isOverlay: Bool) {
         hideLoading()
-        
-        let loadingView = LoadingView(frame: self.view.frame)
+
+        let loadingView = LoadingView(frame: view.frame)
         loadingView.setup(isOverlay: isOverlay, lottieAssetName: "octocat")
         loadingView.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(loadingView)
+        view.addSubview(loadingView)
         NSLayoutConstraint.activate([
-            loadingView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            loadingView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            loadingView.topAnchor.constraint(equalTo: self.view.topAnchor),
-            loadingView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            loadingView.topAnchor.constraint(equalTo: view.topAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
 
     func hideLoading() {
-        self.view.findViews(subclassOf: LoadingView.self)
+        view.findViews(subclassOf: LoadingView.self)
             .forEach { $0.removeFromSuperview() }
     }
 }

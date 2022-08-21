@@ -1,17 +1,19 @@
 //
 //  ApiRemoteDataSource.swift
-//  
+//
 //
 //  Created by Yuki Okudera on 2022/08/12.
 //
 
 import Foundation
 
+// MARK: - ApiRemoteDataSource
 /// @mockable
 public protocol ApiRemoteDataSource {
     func sendRequest<T: ApiRequestable>(_ apiRequest: T) async throws -> ApiResponse<T.Response>
 }
 
+// MARK: - ApiRemoteDataSourceImpl
 public struct ApiRemoteDataSourceImpl: ApiRemoteDataSource {
     public let urlSession: URLSession
 
@@ -39,7 +41,7 @@ public struct ApiRemoteDataSourceImpl: ApiRemoteDataSource {
             throw ApiError.invalidResponse(URLError(.badServerResponse))
         }
         switch httpURLResponse.statusCode {
-        case 200...299:
+        case 200 ... 299:
             do {
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
@@ -48,9 +50,9 @@ public struct ApiRemoteDataSourceImpl: ApiRemoteDataSource {
             } catch let decodingError as DecodingError {
                 throw ApiError.decodeError(decodingError)
             }
-        case 400...499:
+        case 400 ... 499:
             throw ApiError.clientError(httpURLResponse.statusCode)
-        case 500...599:
+        case 500 ... 599:
             throw ApiError.serverError(httpURLResponse.statusCode)
         default:
             throw ApiError.invalidResponse(URLError(.badServerResponse))

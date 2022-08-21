@@ -1,6 +1,6 @@
 //
 //  SearchRepoState.swift
-//  
+//
 //
 //  Created by Yuki Okudera on 2022/08/12.
 //
@@ -8,6 +8,7 @@
 import Domain
 import Foundation
 
+// MARK: - SearchRepoState
 actor SearchRepoState {
     nonisolated let viewData: SearchRepoViewData
     var isLoading: Bool
