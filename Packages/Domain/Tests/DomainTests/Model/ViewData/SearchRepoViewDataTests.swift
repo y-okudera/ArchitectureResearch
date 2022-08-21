@@ -13,7 +13,6 @@ final class SearchRepoViewDataTests: XCTestCase {
     func testInit() async {
         let searchRepoViewData = SearchRepoViewData(hasNext: true, items: .stub)
 
-        XCTAssertEqual(searchRepoViewData.numberOfItems, 1)
         let hasNext = await searchRepoViewData.hasNext
         XCTAssertEqual(hasNext, true)
         let items = await searchRepoViewData.items

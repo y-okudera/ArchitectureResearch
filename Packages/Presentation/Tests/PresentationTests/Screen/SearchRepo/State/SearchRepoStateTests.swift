@@ -18,12 +18,12 @@ final class SearchRepoStateTests: XCTestCase {
             isLoading: false,
             page: 1,
             searchQuery: "",
-            viewData: .init(hasNext: true, items: [])
+            hasNext: true
         )
     }
 
     func testInit() async {
-        await searchRepoState.verify(isLoading: false, page: 1, searchQuery: "", hasNext: true, numberOfItems: 0)
+        await searchRepoState.verify(isLoading: false, page: 1, searchQuery: "", hasNext: true)
     }
 }
 
@@ -43,7 +43,7 @@ extension SearchRepoStateTests {
             isLoading: true,
             page: 1,
             searchQuery: "",
-            viewData: .init(hasNext: true, items: [])
+            hasNext: true
         )
 
         let isEnabledSearch = await searchRepoState.isEnabledSearch(searchQuery: "test")
@@ -73,7 +73,7 @@ extension SearchRepoStateTests {
             isLoading: true,
             page: 1,
             searchQuery: "",
-            viewData: .init(hasNext: true, items: [])
+            hasNext: true
         )
 
         let isEnabledLoadMore = await searchRepoState.isEnabledLoadMore()
@@ -85,24 +85,12 @@ extension SearchRepoStateTests {
         XCTAssertEqual(isEnabledLoadMore, false)
     }
 
-    func testIsEnabledLoadMoreWhenItemsIsEmpty() async {
-        searchRepoState = SearchRepoState(
-            isLoading: false,
-            page: 1,
-            searchQuery: "test",
-            viewData: .init(hasNext: true, items: [])
-        )
-
-        let isEnabledLoadMore = await searchRepoState.isEnabledLoadMore()
-        XCTAssertEqual(isEnabledLoadMore, false)
-    }
-
     func testIsEnabledLoadMoreWhenHasNotNext() async {
         searchRepoState = SearchRepoState(
             isLoading: false,
             page: 1,
             searchQuery: "test",
-            viewData: .init(hasNext: false, items: .stub)
+            hasNext: false
         )
 
         let isEnabledLoadMore = await searchRepoState.isEnabledLoadMore()
@@ -114,7 +102,7 @@ extension SearchRepoStateTests {
             isLoading: false,
             page: 1,
             searchQuery: "test",
-            viewData: .init(hasNext: true, items: .stub)
+            hasNext: true
         )
 
         let isEnabledLoadMore = await searchRepoState.isEnabledLoadMore()

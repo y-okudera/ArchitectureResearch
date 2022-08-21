@@ -25,7 +25,6 @@ final class SearchRepoUseCaseTests: XCTestCase {
         XCTAssertEqual(gitHubRepoRepositoryMock.searchCallCount, 1)
         XCTAssertEqual(gitHubRepoRepositoryMock.searchArgValues[0].0, "test")
         XCTAssertEqual(gitHubRepoRepositoryMock.searchArgValues[0].1, 1)
-        XCTAssertEqual(result.numberOfItems, 1)
         let hasNext = await result.hasNext
         XCTAssertEqual(hasNext, true)
         let items = await result.items

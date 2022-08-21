@@ -9,12 +9,10 @@
 import XCTest
 
 extension SearchRepoState {
-    func verify(isLoading: Bool, page: Int, searchQuery: String, hasNext: Bool, numberOfItems: Int) async {
+    func verify(isLoading: Bool, page: Int, searchQuery: String, hasNext: Bool) async {
         XCTAssertEqual(self.isLoading, isLoading)
         XCTAssertEqual(self.page, page)
         XCTAssertEqual(self.searchQuery, searchQuery)
-        let hasNextValue = await viewData.hasNext
-        XCTAssertEqual(hasNextValue, hasNext)
-        XCTAssertEqual(viewData.numberOfItems, numberOfItems)
+        XCTAssertEqual(self.hasNext, hasNext)
     }
 }
