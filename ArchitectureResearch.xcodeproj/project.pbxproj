@@ -191,6 +191,7 @@
 				B6A5120728A5322700C8FA1A /* Frameworks */,
 				B6A5120828A5322700C8FA1A /* Resources */,
 				B6A5123E28A53EC600C8FA1A /* SwiftLint */,
+				B6CFE9C128AD39F300A82115 /* SwiftFormat */,
 			);
 			buildRules = (
 			);
@@ -329,7 +330,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${SRCROOT}/Scripts/swift_lint.sh\n";
+			shellScript = "bash ${SRCROOT}/Scripts/swift_lint.sh\n";
+		};
+		B6CFE9C128AD39F300A82115 /* SwiftFormat */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftFormat;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "bash ${SRCROOT}/Scripts/swift_format.sh\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

@@ -8,6 +8,7 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/mono0926/LicensePlist", .exact("3.22.4")),
         .package(url: "https://github.com/SwiftGen/SwiftGen", .exact("6.6.1")),
+        .package(url: "https://github.com/nicklockwood/SwiftFormat", .exact("0.49.17")),
     ],
     targets: [
         .target(name: "Common", path: ""),
