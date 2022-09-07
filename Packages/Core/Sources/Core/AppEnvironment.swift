@@ -13,7 +13,8 @@ public protocol AppEnvironment {
 
     // MARK: - DataSource
 
-    var apiRemoteDataSource: ApiRemoteDataSource { get }
+    var webApiDataSource: WebApiDataSource { get }
+    var searchRepoDataSource: SearchRepoDataSource { get }
 
     // MARK: - Repository
 

@@ -13,14 +13,18 @@ final class Environment: AppEnvironment {
 
     // MARK: - DataSource
 
-    var apiRemoteDataSource: ApiRemoteDataSource {
-        ApiRemoteDataSourceImpl(urlSession: .shared)
+    var webApiDataSource: WebApiDataSource {
+        WebApiDataSourceImpl(urlSession: .shared)
+    }
+
+    var searchRepoDataSource: SearchRepoDataSource {
+        SearchRepoRemoteDataSource(webApiDataSource: webApiDataSource)
     }
 
     // MARK: - Repository
 
     var gitHubRepoRepository: GitHubRepoRepository {
-        GitHubRepoRepositoryImpl(apiRemoteDataSource: apiRemoteDataSource)
+        GitHubRepoRepositoryImpl(remoteDataSource: searchRepoDataSource)
     }
 
     // MARK: - UseCase

@@ -5,13 +5,13 @@
 //  Created by Yuki Okudera on 2022/08/13.
 //
 
-@testable import Infrastructure
+@testable import Domain
 import XCTest
 
 final class SearchRepoResponseTests: XCTestCase {
 
     func testInit() throws {
-        let searchRepoResponse = SearchRepoResponse.stub
+        let searchRepoResponse = SearchRepoResponse(items: .stub)
         XCTAssertEqual(searchRepoResponse.items.count, 1)
         XCTAssertEqual(searchRepoResponse.items[0].id, 44_838_949)
         XCTAssertEqual(searchRepoResponse.items[0].fullName, "apple/swift")

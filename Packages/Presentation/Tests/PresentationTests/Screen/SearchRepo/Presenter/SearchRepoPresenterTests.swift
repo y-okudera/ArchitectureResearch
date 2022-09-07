@@ -173,28 +173,43 @@ extension SearchRepoPresenterTests {
     }
 }
 
-//extension SearchRepoPresenterTests {
-//
-//    func testDidSelectRow() async {
-//        // Setup
-//        searchRepoState = SearchRepoState(
-//            isLoading: false,
-//            page: 2,
-//            searchQuery: "test",
-//            hasNext: false
-//        )
-//
-//        let searchRepoPresenterImpl = SearchRepoPresenterImpl(
-//            state: searchRepoState,
-//            searchRepoUseCase: searchRepoUseCaseMock,
-//            wireframe: searchRepoWireframeMock
-//        )
-//
-//        // Exercise
-//        await searchRepoPresenterImpl.didSelect(data: )
-//
-//        // Verify
-//        XCTAssertEqual(searchRepoWireframeMock.pushGeneralWebViewCallCount, 1)
-//        XCTAssertEqual(searchRepoWireframeMock.pushGeneralWebViewArgValues[0], URL(string: "https://github.com/apple/swift")!)
-//    }
-//}
+extension SearchRepoPresenterTests {
+
+    func testDidSelectRow() async {
+        // Setup
+        searchRepoState = SearchRepoState(
+            isLoading: false,
+            page: 2,
+            searchQuery: "test",
+            hasNext: false
+        )
+
+        let searchRepoPresenterImpl = SearchRepoPresenterImpl(
+            state: searchRepoState,
+            searchRepoUseCase: searchRepoUseCaseMock,
+            wireframe: searchRepoWireframeMock
+        )
+        let data = GitHubRepo(
+            id: 44_838_949,
+            fullName: "apple/swift",
+            description: "The Swift Programming Language",
+            stargazersCount: 60306,
+            language: "C++",
+            htmlUrl: URL(string: "https://github.com/apple/swift")!,
+            owner: .init(
+                id: 10_639_145,
+                login: "apple",
+                avatarUrl: URL(string: "https://avatars.githubusercontent.com/u/10639145?v=4")!,
+                htmlUrl: URL(string: "https://github.com/apple")!,
+                type: "Organization"
+            )
+        )
+
+        // Exercise
+        searchRepoPresenterImpl.didSelect(data: data)
+
+        // Verify
+        XCTAssertEqual(searchRepoWireframeMock.pushGeneralWebViewCallCount, 1)
+        XCTAssertEqual(searchRepoWireframeMock.pushGeneralWebViewArgValues[0], URL(string: "https://github.com/apple/swift")!)
+    }
+}

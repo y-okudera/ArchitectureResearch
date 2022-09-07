@@ -10,15 +10,14 @@ import Foundation
 
 public struct GitHubRepoRepositoryImpl: GitHubRepoRepository {
 
-    private let apiRemoteDataSource: ApiRemoteDataSource
+    private let remoteDataSource: SearchRepoDataSource
 
-    public init(apiRemoteDataSource: ApiRemoteDataSource) {
-        self.apiRemoteDataSource = apiRemoteDataSource
+    public init(remoteDataSource: SearchRepoDataSource) {
+        self.remoteDataSource = remoteDataSource
     }
 
     public func search(searchQuery: String, page: Int) async throws -> (hasNext: Bool, items: [GitHubRepo]) {
-        let request = SearchRepoRequest(searchQuery: searchQuery, page: page)
-        let result = try await apiRemoteDataSource.sendRequest(request)
+        let result = try await remoteDataSource.request(searchQuery: searchQuery, page: page)
         guard !result.response.items.isEmpty else {
             throw SearchRepoError.noResults
         }

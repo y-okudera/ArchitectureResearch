@@ -1,5 +1,5 @@
 //
-//  ApiRemoteDataSourceTests.swift
+//  WebApiDataSourceTests.swift
 //
 //
 //  Created by Yuki Okudera on 2022/08/13.
@@ -8,7 +8,7 @@
 @testable import Infrastructure
 import XCTest
 
-final class ApiRemoteDataSourceTests: XCTestCase {
+final class WebApiDataSourceTests: XCTestCase {
 
     /// API request test.
     ///
@@ -34,7 +34,7 @@ final class ApiRemoteDataSourceTests: XCTestCase {
             let dummyRequest = DummyRequest(statusCode: testCase.input.statusCode, sleep: testCase.input.sleep)
 
             // Exercise
-            let result = try await ApiRemoteDataSourceImpl(urlSession: .shared).sendRequest(dummyRequest)
+            let result = try await WebApiDataSourceImpl(urlSession: .shared).sendRequest(dummyRequest)
 
             // Verify
             XCTAssertEqual(result.response.code, testCase.expect.code, line: testCase.input.line)
@@ -69,7 +69,7 @@ final class ApiRemoteDataSourceTests: XCTestCase {
 
             do {
                 // Exercise
-                _ = try await ApiRemoteDataSourceImpl(urlSession: .shared).sendRequest(dummyRequest)
+                _ = try await WebApiDataSourceImpl(urlSession: .shared).sendRequest(dummyRequest)
                 XCTFail("No error was thrown.")
             } catch {
                 // Verify

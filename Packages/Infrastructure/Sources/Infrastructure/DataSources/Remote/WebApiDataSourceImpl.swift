@@ -1,5 +1,5 @@
 //
-//  ApiRemoteDataSource.swift
+//  WebApiDataSourceImpl.swift
 //
 //
 //  Created by Yuki Okudera on 2022/08/12.
@@ -8,15 +8,9 @@
 import Domain
 import Foundation
 
-// MARK: - ApiRemoteDataSource
-/// @mockable
-public protocol ApiRemoteDataSource {
-    func sendRequest<T: ApiRequestable>(_ apiRequest: T) async throws -> ApiResponse<T.Response>
-}
-
-// MARK: - ApiRemoteDataSourceImpl
-public struct ApiRemoteDataSourceImpl: ApiRemoteDataSource {
-    public let urlSession: URLSession
+// MARK: - WebApiDataSourceImpl
+public struct WebApiDataSourceImpl: WebApiDataSource {
+    private let urlSession: URLSession
 
     public init(urlSession: URLSession) {
         self.urlSession = urlSession

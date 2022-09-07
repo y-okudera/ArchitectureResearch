@@ -6,14 +6,15 @@
 //
 
 @testable import Infrastructure
+import Domain
 import XCTest
 
 final class GitHubRepoRepositoryImplTests: XCTestCase {
 
     func testSearch() async throws {
         // Setup
-        let apiRemoteDataSourceMock = ApiRemoteDataSourceMock()
-        apiRemoteDataSourceMock.sendRequestHandler = { _ in
+        let searchRepoDataSourceMock = SearchRepoDataSourceMock()
+        searchRepoDataSourceMock.requestHandler = { _, _ in
             let responseObject = SearchRepoResponse.stub
             let httpURLResponse = HTTPURLResponse(
                 url: URL(string: "https://api.github.com/search/repositories?q=test&order=desc&per_page=20&page=1")!,
@@ -23,15 +24,16 @@ final class GitHubRepoRepositoryImplTests: XCTestCase {
             )!
             return ApiResponse(response: responseObject, httpURLResponse: httpURLResponse)
         }
-        let gitHubRepoRepositoryImpl = GitHubRepoRepositoryImpl(apiRemoteDataSource: apiRemoteDataSourceMock)
+        let gitHubRepoRepositoryImpl = GitHubRepoRepositoryImpl(remoteDataSource: searchRepoDataSourceMock)
 
         // Exercise
         let result = try await gitHubRepoRepositoryImpl.search(searchQuery: "test", page: 1)
 
         // Verify
-        let firstArgValue = apiRemoteDataSourceMock.sendRequestArgValues[0] as! SearchRepoRequest
-        XCTAssertEqual(firstArgValue, .init(searchQuery: "test", page: 1))
-        XCTAssertEqual(apiRemoteDataSourceMock.sendRequestCallCount, 1)
+        let firstArgValue = searchRepoDataSourceMock.requestArgValues[0]
+        XCTAssertEqual(firstArgValue.0, "test")
+        XCTAssertEqual(firstArgValue.1, 1)
+        XCTAssertEqual(searchRepoDataSourceMock.requestCallCount, 1)
         XCTAssertEqual(result.hasNext, true)
         result.items.verifyEqualToStub()
     }
