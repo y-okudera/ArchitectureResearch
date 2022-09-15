@@ -67,7 +67,7 @@ extension SearchRepoViewController {
     private func reachedBottom() {
         Task {
             do {
-                let isEnabledLoadMore = await presenter.state.isEnabledLoadMore()
+                let isEnabledLoadMore = await presenter.isEnabledLoadMore()
                 if !isEnabledLoadMore {
                     return
                 }

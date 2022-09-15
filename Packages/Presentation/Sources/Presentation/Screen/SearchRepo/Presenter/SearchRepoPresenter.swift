@@ -13,6 +13,7 @@ protocol SearchRepoPresenter {
     var state: SearchRepoState { get }
     func search(searchQuery: String?) async throws -> [GitHubRepo]?
     func reachedBottom() async throws -> [GitHubRepo]
+    func isEnabledLoadMore() async -> Bool
     func finishLoading() async
     func didSelect(data: GitHubRepo)
 }
@@ -22,38 +23,50 @@ final class SearchRepoPresenterImpl: SearchRepoPresenter {
 
     private(set) var state: SearchRepoState
     private let searchRepoUseCase: SearchRepoUseCase
+    private let loadMoreRepoUseCase: LoadMoreRepoUseCase
+    private let readSearchRepoDataUseCase: ReadSearchRepoDataUseCase
     private let wireframe: SearchRepoWireframe
 
-    init(state: SearchRepoState, searchRepoUseCase: SearchRepoUseCase, wireframe: SearchRepoWireframe) {
+    init(
+        state: SearchRepoState,
+        searchRepoUseCase: SearchRepoUseCase,
+        loadMoreRepoUseCase: LoadMoreRepoUseCase,
+        readSearchRepoDataUseCase: ReadSearchRepoDataUseCase,
+        wireframe: SearchRepoWireframe
+    ) {
         self.state = state
         self.searchRepoUseCase = searchRepoUseCase
+        self.loadMoreRepoUseCase = loadMoreRepoUseCase
+        self.readSearchRepoDataUseCase = readSearchRepoDataUseCase
         self.wireframe = wireframe
     }
 
     func search(searchQuery: String?) async throws -> [GitHubRepo]? {
-        guard await state.isEnabledSearch(searchQuery: searchQuery) else {
+        let isLoading = await state.isLoading
+        guard let searchQuery = searchQuery, !isLoading else {
             return nil
         }
-        await state.update(isLoading: true)
-        let viewData = try await searchRepoUseCase.execute(searchQuery: searchQuery ?? "", page: 1)
-        let hasNext = await viewData.hasNext
-        await state.update(isLoading: false, page: 2, searchQuery: searchQuery, hasNext: hasNext)
-        let items = await viewData.items
-        return items
+        await state.updateLoadingState(isLoading: true)
+        let searchedRepo = try await searchRepoUseCase.execute(searchQuery: searchQuery)
+        await state.updateLoadingState(isLoading: false)
+        return searchedRepo.items
+    }
+
+    func isEnabledLoadMore() async -> Bool {
+        let isLoading = await state.isLoading
+        let searchRepoData = readSearchRepoDataUseCase.execute()
+        return await searchRepoData.isEnabledLoadMore(isLoading: isLoading)
     }
 
     func reachedBottom() async throws -> [GitHubRepo] {
-        log("追加読み込み state.searchQuery: \(await state.searchQuery) state.page: \(await state.page)")
-        await state.update(isLoading: true)
-        let viewData = try await searchRepoUseCase.execute(searchQuery: state.searchQuery, page: state.page)
-        let hasNext = await viewData.hasNext
-        await state.update(isLoading: false, page: state.page + 1, searchQuery: state.searchQuery, hasNext: hasNext)
-        let items = await viewData.items
-        return items
+        await state.updateLoadingState(isLoading: true)
+        let searchedRepo = try await loadMoreRepoUseCase.execute()
+        await state.updateLoadingState(isLoading: false)
+        return searchedRepo.items
     }
 
     func finishLoading() async {
-        await state.update(isLoading: false)
+        await state.updateLoadingState(isLoading: false)
     }
 
     func didSelect(data: GitHubRepo) {

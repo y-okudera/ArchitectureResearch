@@ -24,7 +24,7 @@ final class GitHubRepoRepositoryImplTests: XCTestCase {
             )!
             return ApiResponse(response: responseObject, httpURLResponse: httpURLResponse)
         }
-        let gitHubRepoRepositoryImpl = GitHubRepoRepositoryImpl(remoteDataSource: searchRepoDataSourceMock)
+        let gitHubRepoRepositoryImpl = SearchedRepoRepositoryImpl(remoteDataSource: searchRepoDataSourceMock)
 
         // Exercise
         let result = try await gitHubRepoRepositoryImpl.search(searchQuery: "test", page: 1)

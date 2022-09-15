@@ -14,7 +14,7 @@ public struct ApiResponse<T: Decodable> {
     public let responseHeaderFields: [AnyHashable: Any]
 
     /// GitHub API specific property
-    public let gitHubApiPagination: GitHubApiPagination?
+    let gitHubApiPagination: GitHubApiPagination?
 
     public init(response: T, httpURLResponse: HTTPURLResponse) {
         self.response = response

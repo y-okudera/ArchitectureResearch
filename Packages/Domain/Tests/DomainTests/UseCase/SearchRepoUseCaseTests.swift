@@ -16,7 +16,7 @@ final class SearchRepoUseCaseTests: XCTestCase {
         gitHubRepoRepositoryMock.searchHandler = { _, _ in
             (hasNext: true, items: .stub)
         }
-        let searchRepoUseCaseImpl = SearchRepoUseCaseImpl(gitHubRepoRepository: gitHubRepoRepositoryMock)
+        let searchRepoUseCaseImpl = SearchRepoInteractor(gitHubRepoRepository: gitHubRepoRepositoryMock)
 
         // Exercise
         let result = try await searchRepoUseCaseImpl.execute(searchQuery: "test", page: 1)

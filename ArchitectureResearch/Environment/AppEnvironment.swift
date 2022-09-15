@@ -23,13 +23,21 @@ final class Environment: AppEnvironment {
 
     // MARK: - Repository
 
-    var gitHubRepoRepository: GitHubRepoRepository {
-        GitHubRepoRepositoryImpl(remoteDataSource: searchRepoDataSource)
+    var searchedRepoRepository: SearchedRepoRepository {
+        SearchedRepoRepositoryImpl(remoteDataSource: searchRepoDataSource)
     }
 
     // MARK: - UseCase
 
     var searchRepoUseCase: SearchRepoUseCase {
-        SearchRepoUseCaseImpl(gitHubRepoRepository: gitHubRepoRepository)
+        SearchRepoInteractor(searchedRepoRepository: searchedRepoRepository)
+    }
+
+    var loadMoreRepoUseCase: LoadMoreRepoUseCase {
+        LoadMoreRepoInteractor(searchedRepoRepository: searchedRepoRepository)
+    }
+
+    var readSearchRepoDataUseCase: ReadSearchRepoDataUseCase {
+        ReadSearchRepoDataInteractor(searchedRepoRepository: searchedRepoRepository)
     }
 }
