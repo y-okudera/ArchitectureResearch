@@ -12,22 +12,20 @@ final class SearchRepoUseCaseTests: XCTestCase {
 
     func testExecute() async throws {
         // Setup
-        let gitHubRepoRepositoryMock = GitHubRepoRepositoryMock()
-        gitHubRepoRepositoryMock.searchHandler = { _, _ in
-            (hasNext: true, items: .stub)
+        let searchedRepoRepositoryMock = SearchedRepoRepositoryMock()
+        searchedRepoRepositoryMock.searchHandler = { _, _ in
+            SearchedRepo(items: .stub, searchQuery: "test", page: 1, hasNext: true)
         }
-        let searchRepoUseCaseImpl = SearchRepoInteractor(gitHubRepoRepository: gitHubRepoRepositoryMock)
+        let searchRepoInteractor = SearchRepoInteractor(searchedRepoRepository: searchedRepoRepositoryMock)
 
         // Exercise
-        let result = try await searchRepoUseCaseImpl.execute(searchQuery: "test", page: 1)
+        let result = try await searchRepoInteractor.execute(searchQuery: "test")
 
         // Verify
-        XCTAssertEqual(gitHubRepoRepositoryMock.searchCallCount, 1)
-        XCTAssertEqual(gitHubRepoRepositoryMock.searchArgValues[0].0, "test")
-        XCTAssertEqual(gitHubRepoRepositoryMock.searchArgValues[0].1, 1)
-        let hasNext = await result.hasNext
-        XCTAssertEqual(hasNext, true)
-        let items = await result.items
-        items.verifyEqualToStub()
+        XCTAssertEqual(searchedRepoRepositoryMock.searchCallCount, 1)
+        XCTAssertEqual(searchedRepoRepositoryMock.searchArgValues[0].0, "test")
+        XCTAssertEqual(searchedRepoRepositoryMock.searchArgValues[0].1, 1)
+        XCTAssertEqual(result.searchRepoData.hasNext, true)
+        result.items.verifyEqualToStub()
     }
 }

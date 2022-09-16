@@ -5,7 +5,7 @@
 //  Created by Yuki Okudera on 2022/08/13.
 //
 
-@testable import Domain
+@testable import Infrastructure
 import XCTest
 
 final class SearchRepoResponseTests: XCTestCase {

@@ -34,7 +34,7 @@ final class GitHubRepoRepositoryImplTests: XCTestCase {
         XCTAssertEqual(firstArgValue.0, "test")
         XCTAssertEqual(firstArgValue.1, 1)
         XCTAssertEqual(searchRepoDataSourceMock.requestCallCount, 1)
-        XCTAssertEqual(result.hasNext, true)
+        XCTAssertEqual(result.searchRepoData.hasNext, true)
         result.items.verifyEqualToStub()
     }
 }

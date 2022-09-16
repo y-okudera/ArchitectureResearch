@@ -5,7 +5,7 @@
 //  Created by Yuki Okudera on 2022/08/17.
 //
 
-@testable import Domain
+import Infrastructure
 
 extension SearchRepoResponse {
     static var stub: Self {

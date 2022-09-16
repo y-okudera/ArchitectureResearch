@@ -14,15 +14,12 @@ final class SearchRepoPresenterTests: XCTestCase {
 
     private var searchRepoState: SearchRepoState!
     private var searchRepoUseCaseMock = SearchRepoUseCaseMock()
+    private var loadMoreRepoUseCaseMock = LoadMoreRepoUseCaseMock()
+    private var readSearchRepoDataUseCaseMock = ReadSearchRepoDataUseCaseMock()
     private var searchRepoWireframeMock = SearchRepoWireframeMock()
 
     override func setUp() {
-        searchRepoState = SearchRepoState(
-            isLoading: false,
-            page: 1,
-            searchQuery: "",
-            hasNext: true
-        )
+        searchRepoState = SearchRepoState(isLoading: false)
         searchRepoUseCaseMock = SearchRepoUseCaseMock()
         searchRepoWireframeMock = SearchRepoWireframeMock()
     }
@@ -35,18 +32,14 @@ extension SearchRepoPresenterTests {
         let searchRepoPresenterImpl = SearchRepoPresenterImpl(
             state: searchRepoState,
             searchRepoUseCase: searchRepoUseCaseMock,
+            loadMoreRepoUseCase: loadMoreRepoUseCaseMock,
+            readSearchRepoDataUseCase: readSearchRepoDataUseCaseMock,
             wireframe: searchRepoWireframeMock
         )
 
         // Verify
         let isLoading = await searchRepoPresenterImpl.state.isLoading
         XCTAssertEqual(isLoading, false)
-        let page = await searchRepoPresenterImpl.state.page
-        XCTAssertEqual(page, 1)
-        let searchQuery = await searchRepoPresenterImpl.state.searchQuery
-        XCTAssertEqual(searchQuery, "")
-        let hasNext = await searchRepoPresenterImpl.state.hasNext
-        XCTAssertEqual(hasNext, true)
     }
 }
 
@@ -57,9 +50,11 @@ extension SearchRepoPresenterTests {
         let searchRepoPresenterImpl = SearchRepoPresenterImpl(
             state: searchRepoState,
             searchRepoUseCase: searchRepoUseCaseMock,
+            loadMoreRepoUseCase: loadMoreRepoUseCaseMock,
+            readSearchRepoDataUseCase: readSearchRepoDataUseCaseMock,
             wireframe: searchRepoWireframeMock
         )
-        await searchRepoPresenterImpl.state.update(isLoading: true)
+        await searchRepoPresenterImpl.state.updateLoadingState(isLoading: true)
 
         // Exercise
         let result = try await searchRepoPresenterImpl.search(searchQuery: "test")
@@ -70,13 +65,15 @@ extension SearchRepoPresenterTests {
 
     func testSearch() async throws {
         // Setup
-        searchRepoUseCaseMock.executeHandler = { _, _ in
-            .init(hasNext: true, items: .stub)
+        searchRepoUseCaseMock.executeHandler = { searchQuery in
+            SearchedRepo(items: .stub, searchQuery: searchQuery, page: 1, hasNext: true)
         }
 
         let searchRepoPresenterImpl = SearchRepoPresenterImpl(
             state: searchRepoState,
             searchRepoUseCase: searchRepoUseCaseMock,
+            loadMoreRepoUseCase: loadMoreRepoUseCaseMock,
+            readSearchRepoDataUseCase: readSearchRepoDataUseCaseMock,
             wireframe: searchRepoWireframeMock
         )
 
@@ -86,8 +83,7 @@ extension SearchRepoPresenterTests {
         // Verify
         XCTAssertEqual(result, .stub)
         XCTAssertEqual(searchRepoUseCaseMock.executeCallCount, 1)
-        XCTAssertEqual(searchRepoUseCaseMock.executeArgValues[0].0, "test")
-        XCTAssertEqual(searchRepoUseCaseMock.executeArgValues[0].1, 1)
+        XCTAssertEqual(searchRepoUseCaseMock.executeArgValues[0], "test")
     }
 }
 
@@ -95,19 +91,16 @@ extension SearchRepoPresenterTests {
 
     func testReachedBottomWhenCannotConnected() async throws {
         // Setup
-        searchRepoUseCaseMock.executeHandler = { _, _ in
+        loadMoreRepoUseCaseMock.executeHandler = {
             throw ApiError.cannotConnected
         }
-        searchRepoState = SearchRepoState(
-            isLoading: false,
-            page: 2,
-            searchQuery: "test",
-            hasNext: false
-        )
+        searchRepoState = SearchRepoState(isLoading: false)
 
         let searchRepoPresenterImpl = SearchRepoPresenterImpl(
             state: searchRepoState,
             searchRepoUseCase: searchRepoUseCaseMock,
+            loadMoreRepoUseCase: loadMoreRepoUseCaseMock,
+            readSearchRepoDataUseCase: readSearchRepoDataUseCaseMock,
             wireframe: searchRepoWireframeMock
         )
 
@@ -123,28 +116,23 @@ extension SearchRepoPresenterTests {
 
     func testReachedBottom() async throws {
         // Setup
-        searchRepoUseCaseMock.executeHandler = { _, _ in
-            .init(hasNext: false, items: .stub)
+        loadMoreRepoUseCaseMock.executeHandler = {
+            SearchedRepo(items: .stub, searchQuery: "test", page: 1, hasNext: false)
         }
-        searchRepoState = SearchRepoState(
-            isLoading: false,
-            page: 2,
-            searchQuery: "test",
-            hasNext: false
-        )
+        searchRepoState = SearchRepoState(isLoading: false)
 
         let searchRepoPresenterImpl = SearchRepoPresenterImpl(
             state: searchRepoState,
             searchRepoUseCase: searchRepoUseCaseMock,
+            loadMoreRepoUseCase: loadMoreRepoUseCaseMock,
+            readSearchRepoDataUseCase: readSearchRepoDataUseCaseMock,
             wireframe: searchRepoWireframeMock
         )
 
         // Expect no throw error.
         _ = try await searchRepoPresenterImpl.reachedBottom()
 
-        XCTAssertEqual(searchRepoUseCaseMock.executeCallCount, 1)
-        XCTAssertEqual(searchRepoUseCaseMock.executeArgValues[0].0, "test")
-        XCTAssertEqual(searchRepoUseCaseMock.executeArgValues[0].1, 2)
+        XCTAssertEqual(loadMoreRepoUseCaseMock.executeCallCount, 1)
     }
 }
 
@@ -152,15 +140,12 @@ extension SearchRepoPresenterTests {
 
     func testFinishLoading() async {
         // Setup
-        searchRepoState = SearchRepoState(
-            isLoading: true,
-            page: 1,
-            searchQuery: "test",
-            hasNext: true
-        )
+        searchRepoState = SearchRepoState(isLoading: true)
         let searchRepoPresenterImpl = SearchRepoPresenterImpl(
             state: searchRepoState,
             searchRepoUseCase: searchRepoUseCaseMock,
+            loadMoreRepoUseCase: loadMoreRepoUseCaseMock,
+            readSearchRepoDataUseCase: readSearchRepoDataUseCaseMock,
             wireframe: searchRepoWireframeMock
         )
 
@@ -177,16 +162,13 @@ extension SearchRepoPresenterTests {
 
     func testDidSelectRow() async {
         // Setup
-        searchRepoState = SearchRepoState(
-            isLoading: false,
-            page: 2,
-            searchQuery: "test",
-            hasNext: false
-        )
+        searchRepoState = SearchRepoState(isLoading: false)
 
         let searchRepoPresenterImpl = SearchRepoPresenterImpl(
             state: searchRepoState,
             searchRepoUseCase: searchRepoUseCaseMock,
+            loadMoreRepoUseCase: loadMoreRepoUseCaseMock,
+            readSearchRepoDataUseCase: readSearchRepoDataUseCaseMock,
             wireframe: searchRepoWireframeMock
         )
         let data = GitHubRepo(
