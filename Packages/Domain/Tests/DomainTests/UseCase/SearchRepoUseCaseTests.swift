@@ -14,7 +14,10 @@ final class SearchRepoUseCaseTests: XCTestCase {
         // Setup
         let searchedRepoRepositoryMock = SearchedRepoRepositoryMock()
         searchedRepoRepositoryMock.searchHandler = { _, _ in
-            SearchedRepo(items: .stub, searchQuery: "test", page: 1, hasNext: true)
+            SearchedRepo(
+                items: .stub,
+                searchRepoRequestData: SearchRepoRequestData(searchQuery: "test", page: 1, hasNext: true)
+            )
         }
         let searchRepoInteractor = SearchRepoInteractor(searchedRepoRepository: searchedRepoRepositoryMock)
 
@@ -25,7 +28,7 @@ final class SearchRepoUseCaseTests: XCTestCase {
         XCTAssertEqual(searchedRepoRepositoryMock.searchCallCount, 1)
         XCTAssertEqual(searchedRepoRepositoryMock.searchArgValues[0].0, "test")
         XCTAssertEqual(searchedRepoRepositoryMock.searchArgValues[0].1, 1)
-        XCTAssertEqual(result.searchRepoData.hasNext, true)
+        XCTAssertEqual(result.searchRepoRequestData.hasNext, true)
         result.items.verifyEqualToStub()
     }
 }

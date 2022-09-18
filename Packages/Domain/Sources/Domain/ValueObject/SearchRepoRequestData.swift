@@ -1,5 +1,5 @@
 //
-//  SearchRepoData.swift
+//  SearchRepoRequestData.swift
 //
 //
 //  Created by okudera on 2022/09/16.
@@ -7,22 +7,19 @@
 
 import Foundation
 
-// MARK: - SearchRepoData
-public final class SearchRepoData {
+// MARK: - SearchRepoRequestData
+public final class SearchRepoRequestData {
     public private(set) var searchQuery: String?
     public private(set) var page: Int
     public private(set) var hasNext: Bool
 
-    public static let shared = SearchRepoData(searchQuery: nil, page: 0, hasNext: false)
-
-    private init(searchQuery: String?, page: Int, hasNext: Bool) {
+    public init(searchQuery: String?, page: Int, hasNext: Bool) {
         self.searchQuery = searchQuery
         self.page = page
         self.hasNext = hasNext
     }
 
-    /// Domainパッケージ内でのみアップデートをさせるため、internalにしています
-    func update(searchQuery: String, page: Int, hasNext: Bool) {
+    public func update(searchQuery: String, page: Int, hasNext: Bool) {
         self.searchQuery = searchQuery
         self.page = page
         self.hasNext = hasNext
@@ -47,8 +44,8 @@ public final class SearchRepoData {
 }
 
 // MARK: Equatable
-extension SearchRepoData: Equatable {
-    public static func == (lhs: SearchRepoData, rhs: SearchRepoData) -> Bool {
+extension SearchRepoRequestData: Equatable {
+    public static func == (lhs: SearchRepoRequestData, rhs: SearchRepoRequestData) -> Bool {
         lhs.searchQuery == rhs.searchQuery && lhs.page == rhs.page && lhs.hasNext == rhs.hasNext
     }
 }

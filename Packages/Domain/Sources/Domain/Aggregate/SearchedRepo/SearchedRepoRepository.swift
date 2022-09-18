@@ -11,5 +11,5 @@ import Foundation
 public protocol SearchedRepoRepository {
     func search(searchQuery: String, page: Int) async throws -> SearchedRepo
 
-    func readSearchRepoData() -> SearchRepoData
+    func readSearchRepoRequestData() -> SearchRepoRequestData
 }

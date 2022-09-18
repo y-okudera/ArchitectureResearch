@@ -15,7 +15,7 @@ final class SearchRepoPresenterTests: XCTestCase {
     private var searchRepoState: SearchRepoState!
     private var searchRepoUseCaseMock = SearchRepoUseCaseMock()
     private var loadMoreRepoUseCaseMock = LoadMoreRepoUseCaseMock()
-    private var readSearchRepoDataUseCaseMock = ReadSearchRepoDataUseCaseMock()
+    private var readSearchRepoRequestDataUseCaseMock = ReadSearchRepoRequestDataUseCaseMock()
     private var searchRepoWireframeMock = SearchRepoWireframeMock()
 
     override func setUp() {
@@ -33,7 +33,7 @@ extension SearchRepoPresenterTests {
             state: searchRepoState,
             searchRepoUseCase: searchRepoUseCaseMock,
             loadMoreRepoUseCase: loadMoreRepoUseCaseMock,
-            readSearchRepoDataUseCase: readSearchRepoDataUseCaseMock,
+            readSearchRepoRequestDataUseCase: readSearchRepoRequestDataUseCaseMock,
             wireframe: searchRepoWireframeMock
         )
 
@@ -51,7 +51,7 @@ extension SearchRepoPresenterTests {
             state: searchRepoState,
             searchRepoUseCase: searchRepoUseCaseMock,
             loadMoreRepoUseCase: loadMoreRepoUseCaseMock,
-            readSearchRepoDataUseCase: readSearchRepoDataUseCaseMock,
+            readSearchRepoRequestDataUseCase: readSearchRepoRequestDataUseCaseMock,
             wireframe: searchRepoWireframeMock
         )
         await searchRepoPresenterImpl.state.updateLoadingState(isLoading: true)
@@ -66,14 +66,17 @@ extension SearchRepoPresenterTests {
     func testSearch() async throws {
         // Setup
         searchRepoUseCaseMock.executeHandler = { searchQuery in
-            SearchedRepo(items: .stub, searchQuery: searchQuery, page: 1, hasNext: true)
+            SearchedRepo(
+                items: .stub,
+                searchRepoRequestData: .init(searchQuery: searchQuery, page: 1, hasNext: true)
+            )
         }
 
         let searchRepoPresenterImpl = SearchRepoPresenterImpl(
             state: searchRepoState,
             searchRepoUseCase: searchRepoUseCaseMock,
             loadMoreRepoUseCase: loadMoreRepoUseCaseMock,
-            readSearchRepoDataUseCase: readSearchRepoDataUseCaseMock,
+            readSearchRepoRequestDataUseCase: readSearchRepoRequestDataUseCaseMock,
             wireframe: searchRepoWireframeMock
         )
 
@@ -100,7 +103,7 @@ extension SearchRepoPresenterTests {
             state: searchRepoState,
             searchRepoUseCase: searchRepoUseCaseMock,
             loadMoreRepoUseCase: loadMoreRepoUseCaseMock,
-            readSearchRepoDataUseCase: readSearchRepoDataUseCaseMock,
+            readSearchRepoRequestDataUseCase: readSearchRepoRequestDataUseCaseMock,
             wireframe: searchRepoWireframeMock
         )
 
@@ -117,7 +120,10 @@ extension SearchRepoPresenterTests {
     func testReachedBottom() async throws {
         // Setup
         loadMoreRepoUseCaseMock.executeHandler = {
-            SearchedRepo(items: .stub, searchQuery: "test", page: 1, hasNext: false)
+            SearchedRepo(
+                items: .stub,
+                searchRepoRequestData: .init(searchQuery: "test", page: 1, hasNext: false)
+            )
         }
         searchRepoState = SearchRepoState(isLoading: false)
 
@@ -125,7 +131,7 @@ extension SearchRepoPresenterTests {
             state: searchRepoState,
             searchRepoUseCase: searchRepoUseCaseMock,
             loadMoreRepoUseCase: loadMoreRepoUseCaseMock,
-            readSearchRepoDataUseCase: readSearchRepoDataUseCaseMock,
+            readSearchRepoRequestDataUseCase: readSearchRepoRequestDataUseCaseMock,
             wireframe: searchRepoWireframeMock
         )
 
@@ -145,7 +151,7 @@ extension SearchRepoPresenterTests {
             state: searchRepoState,
             searchRepoUseCase: searchRepoUseCaseMock,
             loadMoreRepoUseCase: loadMoreRepoUseCaseMock,
-            readSearchRepoDataUseCase: readSearchRepoDataUseCaseMock,
+            readSearchRepoRequestDataUseCase: readSearchRepoRequestDataUseCaseMock,
             wireframe: searchRepoWireframeMock
         )
 
@@ -168,7 +174,7 @@ extension SearchRepoPresenterTests {
             state: searchRepoState,
             searchRepoUseCase: searchRepoUseCaseMock,
             loadMoreRepoUseCase: loadMoreRepoUseCaseMock,
-            readSearchRepoDataUseCase: readSearchRepoDataUseCaseMock,
+            readSearchRepoRequestDataUseCase: readSearchRepoRequestDataUseCaseMock,
             wireframe: searchRepoWireframeMock
         )
         let data = GitHubRepo(

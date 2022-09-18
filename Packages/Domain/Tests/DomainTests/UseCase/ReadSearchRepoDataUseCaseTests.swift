@@ -1,6 +1,6 @@
 //
 //  ReadSearchRepoDataUseCaseTests.swift
-//  
+//
 //
 //  Created by okudera on 2022/09/16.
 //
@@ -13,16 +13,15 @@ final class ReadSearchRepoDataUseCaseTests: XCTestCase {
     func testExecute() async throws {
         // Setup
         let searchedRepoRepositoryMock = SearchedRepoRepositoryMock()
-        searchedRepoRepositoryMock.readSearchRepoDataHandler = {
-            SearchRepoData.shared.update(searchQuery: "test", page: 1, hasNext: false)
-            return SearchRepoData.shared
+        searchedRepoRepositoryMock.readSearchRepoRequestDataHandler = {
+            SearchRepoRequestData(searchQuery: "test", page: 1, hasNext: false)
         }
-        let readSearchRepoDataInteractor = ReadSearchRepoDataInteractor(searchedRepoRepository: searchedRepoRepositoryMock)
+        let readSearchRepoDataInteractor = ReadSearchRepoRequestDataInteractor(searchedRepoRepository: searchedRepoRepositoryMock)
         // Exercise
         let result = readSearchRepoDataInteractor.execute()
 
         // Verify
-        XCTAssertEqual(searchedRepoRepositoryMock.readSearchRepoDataCallCount, 1)
-        XCTAssertEqual(result, searchedRepoRepositoryMock.readSearchRepoData())
+        XCTAssertEqual(searchedRepoRepositoryMock.readSearchRepoRequestDataCallCount, 1)
+        XCTAssertEqual(result, searchedRepoRepositoryMock.readSearchRepoRequestData())
     }
 }

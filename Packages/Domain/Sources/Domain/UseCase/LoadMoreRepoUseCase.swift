@@ -23,14 +23,14 @@ public struct LoadMoreRepoInteractor: LoadMoreRepoUseCase {
     }
 
     public func execute() async throws -> SearchedRepo {
-        let searchRepoData = searchedRepoRepository.readSearchRepoData()
-        log("searchRepoData.searchQuery: \(searchRepoData.searchQuery ?? "nil")")
-        log("searchRepoData.page: \(searchRepoData.page)")
-        log("searchRepoData.hasNext: \(searchRepoData.hasNext)")
+        let searchRepoRequestData = searchedRepoRepository.readSearchRepoRequestData()
+        log("searchRepoRequestData.searchQuery: \(searchRepoRequestData.searchQuery ?? "nil")")
+        log("searchRepoRequestData.page: \(searchRepoRequestData.page)")
+        log("searchRepoRequestData.hasNext: \(searchRepoRequestData.hasNext)")
 
         return try await searchedRepoRepository.search(
-            searchQuery: searchRepoData.searchQuery ?? "",
-            page: searchRepoData.page + 1
+            searchQuery: searchRepoRequestData.searchQuery ?? "",
+            page: searchRepoRequestData.page + 1
         )
     }
 }

@@ -24,20 +24,20 @@ final class SearchRepoPresenterImpl: SearchRepoPresenter {
     private(set) var state: SearchRepoState
     private let searchRepoUseCase: SearchRepoUseCase
     private let loadMoreRepoUseCase: LoadMoreRepoUseCase
-    private let readSearchRepoDataUseCase: ReadSearchRepoDataUseCase
+    private let readSearchRepoRequestDataUseCase: ReadSearchRepoRequestDataUseCase
     private let wireframe: SearchRepoWireframe
 
     init(
         state: SearchRepoState,
         searchRepoUseCase: SearchRepoUseCase,
         loadMoreRepoUseCase: LoadMoreRepoUseCase,
-        readSearchRepoDataUseCase: ReadSearchRepoDataUseCase,
+        readSearchRepoRequestDataUseCase: ReadSearchRepoRequestDataUseCase,
         wireframe: SearchRepoWireframe
     ) {
         self.state = state
         self.searchRepoUseCase = searchRepoUseCase
         self.loadMoreRepoUseCase = loadMoreRepoUseCase
-        self.readSearchRepoDataUseCase = readSearchRepoDataUseCase
+        self.readSearchRepoRequestDataUseCase = readSearchRepoRequestDataUseCase
         self.wireframe = wireframe
     }
 
@@ -54,7 +54,7 @@ final class SearchRepoPresenterImpl: SearchRepoPresenter {
 
     func isEnabledLoadMore() async -> Bool {
         let isLoading = await state.isLoading
-        let searchRepoData = readSearchRepoDataUseCase.execute()
+        let searchRepoData = readSearchRepoRequestDataUseCase.execute()
         return await searchRepoData.isEnabledLoadMore(isLoading: isLoading)
     }
 

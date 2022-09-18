@@ -24,5 +24,5 @@ public protocol AppEnvironment {
 
     var searchRepoUseCase: SearchRepoUseCase { get }
     var loadMoreRepoUseCase: LoadMoreRepoUseCase { get }
-    var readSearchRepoDataUseCase: ReadSearchRepoDataUseCase { get }
+    var readSearchRepoRequestDataUseCase: ReadSearchRepoRequestDataUseCase { get }
 }

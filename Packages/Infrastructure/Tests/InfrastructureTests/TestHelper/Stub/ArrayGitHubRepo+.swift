@@ -5,8 +5,8 @@
 //  Created by Yuki Okudera on 2022/08/17.
 //
 
-import Infrastructure
 import Domain
+import Infrastructure
 import XCTest
 
 extension Array where Element == GitHubRepo {

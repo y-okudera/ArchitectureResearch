@@ -15,7 +15,7 @@ public enum SearchRepoViewBuilder {
             state: .init(isLoading: false),
             searchRepoUseCase: environment.searchRepoUseCase,
             loadMoreRepoUseCase: environment.loadMoreRepoUseCase,
-            readSearchRepoDataUseCase: environment.readSearchRepoDataUseCase,
+            readSearchRepoRequestDataUseCase: environment.readSearchRepoRequestDataUseCase,
             wireframe: wireFrame
         )
 

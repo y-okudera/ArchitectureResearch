@@ -9,10 +9,10 @@ import Foundation
 
 public struct SearchedRepo: Equatable {
     public let items: [GitHubRepo]
-    public let searchRepoData: SearchRepoData = .shared
+    public let searchRepoRequestData: SearchRepoRequestData
 
-    public init(items: [GitHubRepo], searchQuery: String, page: Int, hasNext: Bool) {
+    public init(items: [GitHubRepo], searchRepoRequestData: SearchRepoRequestData) {
         self.items = items
-        searchRepoData.update(searchQuery: searchQuery, page: page, hasNext: hasNext)
+        self.searchRepoRequestData = searchRepoRequestData
     }
 }

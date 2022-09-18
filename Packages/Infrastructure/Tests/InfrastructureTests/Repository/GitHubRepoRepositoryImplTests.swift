@@ -24,7 +24,10 @@ final class GitHubRepoRepositoryImplTests: XCTestCase {
             )!
             return ApiResponse(response: responseObject, httpURLResponse: httpURLResponse)
         }
-        let gitHubRepoRepositoryImpl = SearchedRepoRepositoryImpl(remoteDataSource: searchRepoDataSourceMock)
+        let gitHubRepoRepositoryImpl = SearchedRepoRepositoryImpl(
+            remoteDataSource: searchRepoDataSourceMock,
+            searchRepoRequestData: .init(searchQuery: nil, page: 0, hasNext: false)
+        )
 
         // Exercise
         let result = try await gitHubRepoRepositoryImpl.search(searchQuery: "test", page: 1)
@@ -34,7 +37,7 @@ final class GitHubRepoRepositoryImplTests: XCTestCase {
         XCTAssertEqual(firstArgValue.0, "test")
         XCTAssertEqual(firstArgValue.1, 1)
         XCTAssertEqual(searchRepoDataSourceMock.requestCallCount, 1)
-        XCTAssertEqual(result.searchRepoData.hasNext, true)
+        XCTAssertEqual(result.searchRepoRequestData.hasNext, true)
         result.items.verifyEqualToStub()
     }
 }

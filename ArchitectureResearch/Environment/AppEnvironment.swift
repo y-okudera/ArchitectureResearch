@@ -23,9 +23,10 @@ final class Environment: AppEnvironment {
 
     // MARK: - Repository
 
-    var searchedRepoRepository: SearchedRepoRepository {
-        SearchedRepoRepositoryImpl(remoteDataSource: searchRepoDataSource)
-    }
+    private(set) lazy var searchedRepoRepository: SearchedRepoRepository = SearchedRepoRepositoryImpl(
+        remoteDataSource: searchRepoDataSource,
+        searchRepoRequestData: .init(searchQuery: nil, page: 0, hasNext: false) // Single instance
+    )
 
     // MARK: - UseCase
 
@@ -37,7 +38,7 @@ final class Environment: AppEnvironment {
         LoadMoreRepoInteractor(searchedRepoRepository: searchedRepoRepository)
     }
 
-    var readSearchRepoDataUseCase: ReadSearchRepoDataUseCase {
-        ReadSearchRepoDataInteractor(searchedRepoRepository: searchedRepoRepository)
+    var readSearchRepoRequestDataUseCase: ReadSearchRepoRequestDataUseCase {
+        ReadSearchRepoRequestDataInteractor(searchedRepoRepository: searchedRepoRepository)
     }
 }

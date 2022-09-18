@@ -11,11 +11,11 @@ import Foundation
 public struct SearchedRepoRepositoryImpl: SearchedRepoRepository {
 
     private let remoteDataSource: SearchRepoDataSource
-    private let searchRepoData: SearchRepoData
+    private let searchRepoRequestData: SearchRepoRequestData
 
-    public init(remoteDataSource: SearchRepoDataSource, searchRepoData: SearchRepoData = .shared) {
+    public init(remoteDataSource: SearchRepoDataSource, searchRepoRequestData: SearchRepoRequestData) {
         self.remoteDataSource = remoteDataSource
-        self.searchRepoData = searchRepoData
+        self.searchRepoRequestData = searchRepoRequestData
     }
 
     public func search(searchQuery: String, page: Int) async throws -> SearchedRepo {
@@ -23,15 +23,12 @@ public struct SearchedRepoRepositoryImpl: SearchedRepoRepository {
         guard !result.response.items.isEmpty else {
             throw SearchRepoError.noResults
         }
-        return .init(
-            items: result.response.items,
-            searchQuery: searchQuery,
-            page: page,
-            hasNext: result.gitHubApiPagination?.hasNext ?? false
-        )
+        searchRepoRequestData.update(searchQuery: searchQuery, page: page, hasNext: result.gitHubApiPagination?.hasNext ?? false)
+
+        return .init(items: result.response.items, searchRepoRequestData: searchRepoRequestData)
     }
 
-    public func readSearchRepoData() -> SearchRepoData {
-        searchRepoData
+    public func readSearchRepoRequestData() -> SearchRepoRequestData {
+        searchRepoRequestData
     }
 }
