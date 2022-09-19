@@ -34,7 +34,7 @@ let package = Package(
                 "Infrastructure",
             ],
             resources: [
-                .copy("TestHelper/Resources/Assets.xcassets"),
+                .process("TestHelper/Resources"),
             ]
         ),
     ]

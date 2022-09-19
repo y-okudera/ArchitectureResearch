@@ -9,6 +9,6 @@ import Infrastructure
 
 extension SearchRepoResponse {
     static var stub: Self {
-        try! StubBuilder.build(assetName: "search_repositories")
+        StubBuilder.build(forResource: "search_repositories", withExtension: "json")
     }
 }
