@@ -34,7 +34,7 @@ open: ## Open Xcode workspace
 
 .PHONY: test
 test: ## Run tests on the command line.
-	xcodebuild -scheme 'Domain' -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 13,OS=15.4' test
+	cd Packages/Domain; swift test
 	xcodebuild -scheme 'Infrastructure' -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 13,OS=15.4' test
 	xcodebuild -scheme 'Presentation' -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 13,OS=15.4' test
 
