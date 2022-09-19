@@ -32,6 +32,12 @@ swiftgen: ## Generate resources swift files.
 open: ## Open Xcode workspace
 	open $(project)
 
+.PHONY: test
+test: ## Run tests on the command line.
+	xcodebuild -scheme 'Domain' -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 13,OS=15.4' test
+	xcodebuild -scheme 'Infrastructure' -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 13,OS=15.4' test
+	xcodebuild -scheme 'Presentation' -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 13,OS=15.4' test
+
 .PHONY: clean
 clean: ## Clean generated files
 	rm -rf ./**/Generated/*
