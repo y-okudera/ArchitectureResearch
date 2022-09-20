@@ -7,18 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B6A5120E28A5322700C8FA1A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A5120D28A5322700C8FA1A /* AppDelegate.swift */; };
-		B6A5121028A5322700C8FA1A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A5120F28A5322700C8FA1A /* SceneDelegate.swift */; };
+		B63585B728D899E100589763 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63585B628D899E100589763 /* App.swift */; };
+		B63585BB28D89A1600589763 /* Components in Frameworks */ = {isa = PBXBuildFile; productRef = B63585BA28D89A1600589763 /* Components */; };
+		B63585BD28D89A1600589763 /* Models in Frameworks */ = {isa = PBXBuildFile; productRef = B63585BC28D89A1600589763 /* Models */; };
+		B63585BF28D8C4D000589763 /* ApiClient in Frameworks */ = {isa = PBXBuildFile; productRef = B63585BE28D8C4D000589763 /* ApiClient */; };
+		B63585C128D8C5C200589763 /* AppFeature in Frameworks */ = {isa = PBXBuildFile; productRef = B63585C028D8C5C200589763 /* AppFeature */; };
 		B6A5121728A5322E00C8FA1A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6A5121628A5322E00C8FA1A /* Assets.xcassets */; };
 		B6A5121A28A5322E00C8FA1A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6A5121828A5322E00C8FA1A /* LaunchScreen.storyboard */; };
 		B6A5122528A5322E00C8FA1A /* ArchitectureResearchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A5122428A5322E00C8FA1A /* ArchitectureResearchTests.swift */; };
 		B6A5122F28A5322E00C8FA1A /* ArchitectureResearchUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A5122E28A5322E00C8FA1A /* ArchitectureResearchUITests.swift */; };
 		B6A5123128A5322E00C8FA1A /* ArchitectureResearchUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A5123028A5322E00C8FA1A /* ArchitectureResearchUITestsLaunchTests.swift */; };
-		B6A5124328A54D4A00C8FA1A /* Infrastructure in Frameworks */ = {isa = PBXBuildFile; productRef = B6A5124228A54D4A00C8FA1A /* Infrastructure */; };
-		B6A5124628A55F8600C8FA1A /* Domain in Frameworks */ = {isa = PBXBuildFile; productRef = B6A5124528A55F8600C8FA1A /* Domain */; };
-		B6A5124D28A570CE00C8FA1A /* Core in Frameworks */ = {isa = PBXBuildFile; productRef = B6A5124C28A570CE00C8FA1A /* Core */; };
-		B6A5125028A5738C00C8FA1A /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A5124F28A5738C00C8FA1A /* AppEnvironment.swift */; };
-		B6A5125328A579B000C8FA1A /* Presentation in Frameworks */ = {isa = PBXBuildFile; productRef = B6A5125228A579B000C8FA1A /* Presentation */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,9 +37,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B63585B628D899E100589763 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
+		B66E908D28D81DBF00EF4E6B /* ArchitectureResearch */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ArchitectureResearch; path = Packages/ArchitectureResearch; sourceTree = "<group>"; };
 		B6A5120A28A5322700C8FA1A /* ArchitectureResearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ArchitectureResearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		B6A5120D28A5322700C8FA1A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B6A5120F28A5322700C8FA1A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		B6A5121628A5322E00C8FA1A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B6A5121928A5322E00C8FA1A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B6A5121B28A5322E00C8FA1A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -50,11 +48,6 @@
 		B6A5122A28A5322E00C8FA1A /* ArchitectureResearchUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ArchitectureResearchUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6A5122E28A5322E00C8FA1A /* ArchitectureResearchUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchitectureResearchUITests.swift; sourceTree = "<group>"; };
 		B6A5123028A5322E00C8FA1A /* ArchitectureResearchUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchitectureResearchUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		B6A5124028A54D2D00C8FA1A /* Infrastructure */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Infrastructure; path = Packages/Infrastructure; sourceTree = "<group>"; };
-		B6A5124428A55F6600C8FA1A /* Domain */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Domain; path = Packages/Domain; sourceTree = "<group>"; };
-		B6A5124B28A570C800C8FA1A /* Core */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Core; path = Packages/Core; sourceTree = "<group>"; };
-		B6A5124F28A5738C00C8FA1A /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
-		B6A5125128A5799F00C8FA1A /* Presentation */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Presentation; path = Packages/Presentation; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,10 +55,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B6A5125328A579B000C8FA1A /* Presentation in Frameworks */,
-				B6A5124628A55F8600C8FA1A /* Domain in Frameworks */,
-				B6A5124328A54D4A00C8FA1A /* Infrastructure in Frameworks */,
-				B6A5124D28A570CE00C8FA1A /* Core in Frameworks */,
+				B63585BF28D8C4D000589763 /* ApiClient in Frameworks */,
+				B63585BB28D89A1600589763 /* Components in Frameworks */,
+				B63585BD28D89A1600589763 /* Models in Frameworks */,
+				B63585C128D8C5C200589763 /* AppFeature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,7 +105,6 @@
 			isa = PBXGroup;
 			children = (
 				B6BEAB3B28A6B88100FD7A89 /* Application */,
-				B6A5124E28A5737000C8FA1A /* Environment */,
 				B6BEAB3C28A6B89C00FD7A89 /* Resources */,
 			);
 			path = ArchitectureResearch;
@@ -138,10 +130,7 @@
 		B6A5123F28A54D2D00C8FA1A /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				B6A5124B28A570C800C8FA1A /* Core */,
-				B6A5124428A55F6600C8FA1A /* Domain */,
-				B6A5124028A54D2D00C8FA1A /* Infrastructure */,
-				B6A5125128A5799F00C8FA1A /* Presentation */,
+				B66E908D28D81DBF00EF4E6B /* ArchitectureResearch */,
 			);
 			name = Packages;
 			sourceTree = "<group>";
@@ -153,20 +142,11 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		B6A5124E28A5737000C8FA1A /* Environment */ = {
-			isa = PBXGroup;
-			children = (
-				B6A5124F28A5738C00C8FA1A /* AppEnvironment.swift */,
-			);
-			path = Environment;
-			sourceTree = "<group>";
-		};
 		B6BEAB3B28A6B88100FD7A89 /* Application */ = {
 			isa = PBXGroup;
 			children = (
-				B6A5120D28A5322700C8FA1A /* AppDelegate.swift */,
 				B6A5121828A5322E00C8FA1A /* LaunchScreen.storyboard */,
-				B6A5120F28A5322700C8FA1A /* SceneDelegate.swift */,
+				B63585B628D899E100589763 /* App.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -199,10 +179,10 @@
 			);
 			name = ArchitectureResearch;
 			packageProductDependencies = (
-				B6A5124228A54D4A00C8FA1A /* Infrastructure */,
-				B6A5124528A55F8600C8FA1A /* Domain */,
-				B6A5124C28A570CE00C8FA1A /* Core */,
-				B6A5125228A579B000C8FA1A /* Presentation */,
+				B63585BA28D89A1600589763 /* Components */,
+				B63585BC28D89A1600589763 /* Models */,
+				B63585BE28D8C4D000589763 /* ApiClient */,
+				B63585C028D8C5C200589763 /* AppFeature */,
 			);
 			productName = ArchitectureResearch;
 			productReference = B6A5120A28A5322700C8FA1A /* ArchitectureResearch.app */;
@@ -357,9 +337,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B6A5125028A5738C00C8FA1A /* AppEnvironment.swift in Sources */,
-				B6A5120E28A5322700C8FA1A /* AppDelegate.swift in Sources */,
-				B6A5121028A5322700C8FA1A /* SceneDelegate.swift in Sources */,
+				B63585B728D899E100589763 /* App.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -697,21 +675,21 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		B6A5124228A54D4A00C8FA1A /* Infrastructure */ = {
+		B63585BA28D89A1600589763 /* Components */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = Infrastructure;
+			productName = Components;
 		};
-		B6A5124528A55F8600C8FA1A /* Domain */ = {
+		B63585BC28D89A1600589763 /* Models */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = Domain;
+			productName = Models;
 		};
-		B6A5124C28A570CE00C8FA1A /* Core */ = {
+		B63585BE28D8C4D000589763 /* ApiClient */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = Core;
+			productName = ApiClient;
 		};
-		B6A5125228A579B000C8FA1A /* Presentation */ = {
+		B63585C028D8C5C200589763 /* AppFeature */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = Presentation;
+			productName = AppFeature;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
