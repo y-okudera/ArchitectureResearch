@@ -9,7 +9,7 @@ import Lottie
 import SwiftUI
 import UIKit
 
-#warning("Will modularize")
+// MARK: - LottieView
 public struct LottieView: UIViewRepresentable {
     public init(asset: String = "octocat", isAnimating: Binding<Bool>) {
         self.asset = asset
@@ -43,5 +43,17 @@ public struct LottieView: UIViewRepresentable {
 
     public func updateUIView(_ uiView: UIViewType, context: Context) {
         uiView.isHidden = !isAnimating
+    }
+}
+
+// MARK: - LottieView_Previews
+struct LottieView_Previews: PreviewProvider {
+    static var previews: some View {
+        LottieView(
+            asset: "octocat",
+            isAnimating: .constant(true)
+        )
+        .frame(width: 120, height: 120, alignment: .center)
+        .previewLayout(.sizeThatFits)
     }
 }

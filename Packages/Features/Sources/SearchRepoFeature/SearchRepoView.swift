@@ -7,8 +7,10 @@
 
 import Components
 import ComposableArchitecture
+import Logger
 import Models
 import NavigationSearchBar
+import Representable
 import SwiftUI
 
 // MARK: - SearchRepoView
@@ -69,10 +71,10 @@ public struct SearchRepoView: View {
                     ],
                     actions: [
                         .onCancelButtonClicked: {
-                            print("Cancel")
+                            log("onCancelButtonClicked")
                         },
                         .onSearchButtonClicked: {
-                            print("Search")
+                            log("onSearchButtonClicked")
                             viewStore.send(.search)
                         },
                     ]

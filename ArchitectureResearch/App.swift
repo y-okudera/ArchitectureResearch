@@ -9,6 +9,19 @@ import AppFeature
 import ComposableArchitecture
 import SwiftUI
 
+// MARK: - App
+@main
+struct App: SwiftUI.App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
+    @Environment(\.scenePhase) private var scenePhase
+
+    var body: some Scene {
+        WindowGroup {
+            AppView(store: self.appDelegate.store)
+        }
+    }
+}
+
 // MARK: - AppDelegate
 final class AppDelegate: NSObject, UIApplicationDelegate {
     let store = Store(
@@ -30,21 +43,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
     }
 }
 
-// MARK: - SwiftUIComposableArchitectureApp
-@main
-struct SwiftUIComposableArchitectureApp: App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
-    @Environment(\.scenePhase) private var scenePhase
-
-    var body: some Scene {
-        WindowGroup {
-            AppView(store: self.appDelegate.store)
-        }
-    }
-}
-
 // MARK: AppCore.Environment live
-
 extension AppCore.Environment {
     static let live = Self(
         apiClient: .live,

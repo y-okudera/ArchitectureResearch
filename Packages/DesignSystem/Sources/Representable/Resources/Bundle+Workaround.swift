@@ -13,7 +13,7 @@ private class BundleFinder {}
 extension Foundation.Bundle {
     /// Returns the resource bundle associated with the current Swift module.
     static var workaroundModule: Bundle = {
-        let bundleName = "ArchitectureResearch_Components"
+        let bundleName = "DesignSystem_Representable"
 
         let candidates = [
             // Bundle should be present here when the package is linked into an App.

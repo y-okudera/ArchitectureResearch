@@ -9,8 +9,6 @@ import Kingfisher
 import Models
 import SwiftUI
 
-#warning("Will modularize")
-
 // MARK: - GitHubRepoItemView
 public struct GitHubRepoItemView: View {
     let gitHubRepo: GitHubRepo
@@ -45,5 +43,6 @@ public struct GitHubRepoItemView: View {
 struct GitHubRepoItemView_Previews: PreviewProvider {
     static var previews: some View {
         GitHubRepoItemView(gitHubRepo: .mock)
+            .previewLayout(.sizeThatFits)
     }
 }
