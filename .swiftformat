@@ -1,0 +1,35 @@
+# format options
+--swiftversion 5.6
+
+--self remove # Explicit self: "insert", "remove" (default) or "init-only"
+--typeblanklines preserve # スコープの先頭の空白行は現状を保つ
+--lineaftermarks false # "MARK:"の後に空白行を挿入しない
+--allman false # インデントスタイルはK&Rを使用
+--elseposition same-line # Placement of else/catch: "same-line" (default) or "next-line"
+--guardelse same-line # Guard else: "same-line", "next-line" or "auto" (default)
+--emptybraces no-space # Empty braces: "no-space" (default), "spaced" or "linebreak"
+--extensionacl on-declarations # アクセスコントロールはextensionではなく宣言に対して記述する
+--importgrouping testable-first # "testable-first/last", "alpha" (default) or "length"
+--stripunusedargs closure-only # "closure-only", "unnamed-only" or "always" (default)
+--wrapparameters before-first # Wrap func params: "before-first", "after-first", "preserve"
+--wrapcollections before-first # Wrap array/dict: "before-first", "after-first", "preserve"
+--wrapconditions after-first # Wrap conditions: "before-first", "after-first", "preserve"
+--funcattributes prev-line # Function @attributes: "preserve", "prev-line", or "same-line"
+--typeattributes prev-line # Type @attributes: "preserve", "prev-line", or "same-line"
+--varattributes same-line # Property @attributes: "preserve", "prev-line", or "same-line"
+
+# file options
+--exclude Pods
+--exclude Carthage
+
+# enable opt-in rules
+--enable blankLinesBetweenImports
+--enable blockComments
+--enable markTypes
+--enable wrapConditionalBodies
+--enable wrapEnumCases
+--enable wrapSwitchCases
+
+# disable rules
+# --disable redundantReturn # Remove unneeded return keyword.
+--disable strongOutlets # Outletsはweakを許容
